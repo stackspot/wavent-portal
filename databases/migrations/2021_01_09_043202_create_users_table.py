@@ -6,12 +6,15 @@ class CreateUsersTable(Migration):
         """Run the migrations."""
         with self.schema.create("users") as table:
             table.increments("id")
-            table.string("name")
+            table.string("name", 128)
             table.string("email").unique()
             table.string("password")
-            table.string("second_password").nullable()
+            table.boolean("is_active").default(False)
+            table.boolean("is_admin").default(False)
+            table.boolean("is_provider").default(False)
+            table.boolean("is_staff").default(False)
             table.string("remember_token").nullable()
-            table.string("phone").nullable()
+            table.string("phone", 50).nullable()
             table.timestamp("verified_at").nullable()
             table.timestamps()
             table.soft_deletes()
