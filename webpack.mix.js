@@ -10,10 +10,11 @@ const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 mix
 	.js('resources/js/app.js', 'storage/compiled/js')
 	.vue()
-	.postCss('resources/css/app.css', 'storage/compiled/css', [
-		//
-	])
 	.sourceMaps()
+	.postCss('resources/css/app.css', 'storage/compiled/css', [
+		require('tailwindcss'),
+		require('autoprefixer'),
+	])
 
 // add an alias to js code
 mix.alias({
