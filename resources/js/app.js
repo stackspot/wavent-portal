@@ -30,7 +30,6 @@ const vueApp = createApp({
 	.use(plugin)
 	.use(ElementPlus)
 	.use(VueApexCharts)
-	.use(VCalendar, {})
 	.component('inertia-link', Link)
 
 vueApp.mount(el)
