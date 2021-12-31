@@ -3,21 +3,47 @@ applications. By default, we are compiling the CSS file for the application as w
 bundling up all the JS files. */
 const mix = require('laravel-mix')
 const path = require('path')
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
-
-mix.js('resources/js/app.js', 'storage/compiled/js')
-  .postCss('resources/css/app.css', 'storage/compiled/css', [
-    //
-  ])
+mix
+	.js('resources/js/app.js', 'storage/compiled/js')
+	.vue()
+	.postCss('resources/css/app.css', 'storage/compiled/css', [
+		//
+	])
+	.sourceMaps()
 
 // add an alias to js code
 mix.alias({
-  "@": path.resolve("resources/js/"),
+	'@': path.resolve('resources/js/'),
+})
+
+mix.webpackConfig({
+	plugins: [
+		AutoImport({
+			resolvers: [ElementPlusResolver()],
+		}),
+		Components({
+			resolvers: [ElementPlusResolver()],
+		}),
+	],
+	module: {
+		rules: [
+			{
+				test: /\.mjs$/,
+				resolve: { fullySpecified: false },
+				include: /node_modules/,
+				type: 'javascript/auto',
+			},
+		],
+	},
 })
 
 // add version hash in production
 if (mix.inProduction()) {
-  mix.version()
+	mix.version()
 }
 // Disable compilation success notification
 mix.disableSuccessNotifications()
