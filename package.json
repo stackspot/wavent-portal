@@ -19,12 +19,15 @@
 		"naive-ui": "^2.23.2",
 		"postcss": "^8.4.5",
 		"vfonts": "^0.1.0",
-		"vue-loader": "^16.8.3"
+		"vue-loader": "^16.8.3",
+		"windicss": "^3.4.2",
+		"windicss-webpack-plugin": "^1.6.2"
 	},
 	"dependencies": {
 		"@inertiajs/inertia": "^0.10.1",
 		"@inertiajs/inertia-vue3": "^0.5.2",
 		"@inertiajs/progress": "^0.2.6",
+		"pinia": "^2.0.9",
 		"vue": "^3.2.22",
 		"ziggy-js": "^1.4.2"
 	}
