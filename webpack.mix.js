@@ -3,6 +3,7 @@ applications. By default, we are compiling the CSS file for the application as w
 bundling up all the JS files. */
 const mix = require('laravel-mix')
 const path = require('path')
+const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 
 mix
 	.js('resources/js/app.js', 'storage/compiled/js')
@@ -18,6 +19,7 @@ mix.alias({
 })
 
 mix.webpackConfig({
+	plugins: [new WindiCSSWebpackPlugin()],
 	module: {
 		rules: [
 			/* {
