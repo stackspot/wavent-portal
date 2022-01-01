@@ -2,10 +2,13 @@ import { createApp, h } from 'vue'
 
 import { app, Link, plugin } from '@inertiajs/inertia-vue3'
 import { InertiaProgress as progress } from '@inertiajs/progress'
+import { createPinia } from 'pinia'
 
 import naive from './naive'
 
 import route from 'ziggy-js'
+
+require('windi.css')
 
 const el = document.getElementById('app')
 
@@ -23,6 +26,7 @@ const vueApp = createApp({
 		}),
 })
 	.use(plugin)
+	.use(createPinia)
 	.use(naive)
 	.component('inertia-link', Link)
 
