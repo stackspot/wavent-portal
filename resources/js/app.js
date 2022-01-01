@@ -3,14 +3,9 @@ import { createApp, h } from 'vue'
 import { app, Link, plugin } from '@inertiajs/inertia-vue3'
 import { InertiaProgress as progress } from '@inertiajs/progress'
 
-import VueApexCharts from 'vue3-apexcharts'
+import naive from './naive'
 
-import ElementPlus from 'element-plus'
-import 'element-plus/theme-chalk/index.css'
-import 'element-plus/theme-chalk/display.css'
-
-/* import route from 'ziggy-js'
-import { Ziggy } from '@/routes' */
+import route from 'ziggy-js'
 
 const el = document.getElementById('app')
 
@@ -28,8 +23,7 @@ const vueApp = createApp({
 		}),
 })
 	.use(plugin)
-	.use(ElementPlus)
-	.use(VueApexCharts)
+	.use(naive)
 	.component('inertia-link', Link)
 
 vueApp.mount(el)
