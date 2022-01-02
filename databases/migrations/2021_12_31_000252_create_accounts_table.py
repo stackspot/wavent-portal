@@ -9,7 +9,7 @@ class CreateAccountsTable(Migration):
         Run the migrations.
         """
         with self.schema.create("accounts") as table:
-            table.increments("id")
+            table.increments("id").primary()
             table.string("name")
             table.string("slug").unique()
             table.timestamps()

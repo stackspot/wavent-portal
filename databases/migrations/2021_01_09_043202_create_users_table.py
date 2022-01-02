@@ -5,7 +5,7 @@ class CreateUsersTable(Migration):
     def up(self):
         """Run the migrations."""
         with self.schema.create("users") as table:
-            table.increments("id")
+            table.increments("id").primary()
             table.string("name", 128)
             table.string("email").unique()
             table.string("password")

@@ -9,7 +9,7 @@ class CreateServicesTable(Migration):
         Run the migrations.
         """
         with self.schema.create("services") as table:
-            table.increments("id")
+            table.increments("id").primary()
             table.string("name")
             table.decimal("price", 10, 2)
             table.time("duration").nullable()

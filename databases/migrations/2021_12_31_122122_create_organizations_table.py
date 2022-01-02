@@ -9,7 +9,7 @@ class CreateOrganizationsTable(Migration):
         Run the migrations.
         """
         with self.schema.create("organizations") as table:
-            table.increments("id")
+            table.increments("id").primary()
             table.string("name", 128)
             table.string("email", 100).nullable()
             table.string("phone", 50).nullable()

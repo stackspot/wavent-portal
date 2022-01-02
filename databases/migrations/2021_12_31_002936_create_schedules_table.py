@@ -9,7 +9,7 @@ class CreateSchedulesTable(Migration):
         Run the migrations.
         """
         with self.schema.create("schedules") as table:
-            table.increments("id")
+            table.increments("id").primary()
             table.datetime("start_time")
             table.datetime("finish_time")
             table.timestamps()
