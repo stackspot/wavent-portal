@@ -1,4 +1,5 @@
 from masonite.inertia import InertiaProvider
+from masonite.js_routes import JSRoutesProvider
 from masonite.notification.providers import NotificationProvider
 from masonite.providers import (
     AuthenticationProvider,
@@ -45,4 +46,5 @@ PROVIDERS = [
     ORMProvider,
     # third party packages
     InertiaProvider,
+    # JSRoutesProvider
 ]
