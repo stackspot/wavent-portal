@@ -16,14 +16,6 @@
         </template>
         Dashboard help
       </n-tooltip>
-      <n-tooltip>
-        <template #trigger>
-          <n-a href="https://github.com/zce/fearless" target="_blank">
-            <icon type="github" size="22" :depth="2" />
-          </n-a>
-        </template>
-        View on GitHub
-      </n-tooltip>
       <n-popover trigger="click" placement="bottom-end" :width="300">
         <template #trigger>
           <n-badge dot processing>
@@ -65,22 +57,26 @@ import { Inertia } from '@inertiajs/inertia'
 
 const message = useMessage()
 
+const renderIcon = (icon) => {
+  return h(Icon, { type: icon })
+}
+
 const labelLink = (to, label) => h(InertiaLink, { href: to }, { default: (props) => label })
 
 const options = computed(() => [
   { key: 'me', label: `Hey, Jack!` },
   { key: 'divider', type: 'divider' },
-  { key: 'profile', label: () => labelLink('/profile', 'Your Profiles') },
-  { key: 'settings', label: () => labelLink('/profile/settings', 'Settings') },
+  { key: 'profile', label: () => labelLink('/profile', 'Perfil'), icon: renderIcon('user') },
+  { key: 'settings', label: () => labelLink('/profile/settings', 'Difinições'), icon: renderIcon('settings') },
   { key: 'divider', type: 'divider' },
-  { key: 'logout', label: 'Sign out' }
+  { key: 'logout', label: 'Sair' }
 ])
 
 const handleOptionsSelect = async (key) => {
   if (key === 'logout') {
     await Inertia.push({ name: 'login' })
   } else if (key === 'me') {
-    message.success(`Welcome back, ${me.value?.name}!`)
+    message.success(`Welcome back, jack!`)
   }
 }
 </script>
