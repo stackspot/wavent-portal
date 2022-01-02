@@ -9,45 +9,26 @@
     @update:collapsed="toggle"
   >
     <inertia-link href="/" class="n-a logo">
-      <svg viewBox="0 0 472 450">
-        <defs>
-          <mask id="mask" fill="#fff">
-            <path
-              d="M472 114.26L203.029 335.74H407.1L472 449.48H64.9L0 335.74l268.971-221.48H64.9L0 .52h407.1z"
-            />
-          </mask>
-          <filter
-            id="shadow"
-            x="-12.7%"
-            y="-13.4%"
-            width="125.4%"
-            height="126.7%"
-            filterUnits="objectBoundingBox"
-          >
-            <feOffset in="SourceAlpha" result="offset-outer" />
-            <feGaussianBlur stdDeviation="20" in="offset-outer" result="blue-outer" />
-            <feComposite in="blue-outer" in2="SourceAlpha" operator="out" result="blue-outer" />
-            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" in="blue-outer" />
-          </filter>
-        </defs>
-        <g mask="url(#mask)">
-          <path fill="currentColor" d="M0 0h472v449H0z" />
-          <path d="M0 335.74l64.9 113.74L472 114.26 407.1.52z" filter="url(#shadow)" />
-        </g>
-      </svg>
-      <span>Jack</span>
+      <wavent-icon></wavent-icon>
+      <span>Wavent</span>
     </inertia-link>
-    <!-- <n-menu :value="currentKey" :default-expanded-keys="expandedKeys" :options="options" :root-indent="18" @update:value="k => { currentKey = k }" /> -->
+    <n-menu
+      :value="currentKey"
+      :default-expanded-keys="expandedKeys"
+      :options="options"
+      :root-indent="18"
+      @update:value="k => { currentKey = k }"
+    />
   </n-layout-sider>
 </template>
 
 <script setup>
 import { h, ref, computed, watchEffect } from 'vue'
-//import { useMenus, Menu } from '@/composables'
-import { Icon } from '@/components'
 import { Link as InertiaLink } from '@inertiajs/inertia-vue3'
 import { usePage } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
+//import { useMenus } from '@/composables'
+import { Icon, WaventIcon } from '@/components'
 
 const collapsed = ref(false)
 
@@ -56,25 +37,68 @@ const toggle = async () => {
 }
 
 // TODO: loading state
-//const { data: menus } = useMenus()
+const menus = ref([
+  {
+    label: 'Painel',
+    id: 'dashboard',
+    url: '/admin/painel',
+    icon: 'dashboard',
+    children: null,
+  },
+  {
+    label: 'Calendário',
+    id: 'calendar',
+    url: '/admin/calendario',
+    icon: 'calendar',
+    children: null,
+  },
+  {
+    label: 'Clientes',
+    id: 'clients',
+    url: '/admin/clients',
+    icon: 'clients',
+    children: null,
+  },
+  {
+    label: 'Equipa',
+    id: 'staff',
+    url: '/admin/equipa',
+    icon: 'team',
+    children: null,
+  },
+  {
+    label: 'Serviços',
+    id: 'services',
+    url: '/admin/servicos',
+    icon: 'services',
+    children: null,
+  },
+  {
+    label: 'Definições',
+    id: 'settings',
+    url: '/admin/definicao',
+    icon: 'settings',
+    children: null,
+  },
+])
 
 const page = usePage()
 
-/* const mapping = (items) => items.map(item => ({
+const mapping = (items) => items.map(item => ({
   ...item,
   key: item.id,
-  label: item.name != null ? () => h(InertiaLink, { href: item }, { default: () => item.label }) : item.label,
+  label: item.url != null ? () => h(InertiaLink, { href: item.url }, { default: () => item.label }) : item.label,
   icon: item.icon != null ? () => h(Icon, { type: item.icon }) : undefined,
   children: item.children && mapping(item.children)
-})) */
+}))
 
-//const options = computed(() => (menus.value ? mapping(menus.value) : []))
+const options = computed(() => (menus.value ? mapping(menus.value) : []))
 
 const currentKey = ref('')
 const expandedKeys = ref([])
 
 const routeMatched = (menu) => {
-  return page.url.value === menu.name && (menu.params == null || JSON.stringify(page.url.value) === JSON.stringify(menu.params))
+  return page.url.value === menu.url && (menu.params == null || JSON.stringify(page.url.value) === JSON.stringify(menu.params))
 }
 
 const matchExpanded = (items) => {
