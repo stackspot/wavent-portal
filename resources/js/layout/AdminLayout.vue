@@ -12,10 +12,6 @@
 </template>
 
 <script setup>
-import BaseLayout from './BaseLayout.vue'
-import Sidebar from './sidebar.vue'
-import Header from './header.vue'
-import Content from './content.vue'
-import Footer from './footer.vue'
+import { BaseLayout, Sidebar, Header, Content, Footer } from './index'
 // workbench
 </script>
