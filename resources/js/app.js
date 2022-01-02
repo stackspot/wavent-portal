@@ -8,7 +8,9 @@ import naive from './naive'
 
 import route from 'ziggy-js'
 
-require('windi.css')
+import { AdminLayout } from '@/layout'
+
+//require('windi.css')
 
 const el = document.getElementById('app')
 
@@ -20,7 +22,7 @@ const vueApp = createApp({
 			initialPage: JSON.parse(el.dataset.page),
 			resolveComponent: (name) => {
 				const page = require(`./Pages/${name}`).default
-				page.layout = page.layout
+				page.layout = page.layout || AdminLayout
 				return page
 			},
 		}),
