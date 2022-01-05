@@ -6,7 +6,7 @@
     collapse-mode="width"
     show-trigger="bar"
     bordered
-    @update:collapsed="toggle"
+    @update:collapsed="toggleCollapsed"
   >
     <inertia-link href="/" class="n-a logo">
       <wavent-icon></wavent-icon>
@@ -23,99 +23,14 @@
 </template>
 
 <script setup>
-import { h, ref, computed, watchEffect } from 'vue'
-import { Link as InertiaLink } from '@inertiajs/inertia-vue3'
-import { usePage } from '@inertiajs/inertia-vue3'
-import { Inertia } from '@inertiajs/inertia'
-//import { useMenus } from '@/composables'
-import { Icon, WaventIcon } from '@/components'
+import { computed, watchEffect } from 'vue'
+import { useMenus } from '@/composables/menus'
+import { WaventIcon } from '@/components'
 
-const collapsed = ref(false)
-
-const toggle = async () => {
-  collapsed.value = !collapsed.value
-}
-
-// TODO: loading state
-const menus = ref([
-  {
-    label: 'Painel',
-    id: 'dashboard',
-    url: '/admin/painel',
-    icon: 'dashboard',
-    children: null,
-  },
-  {
-    label: 'Calendário',
-    id: 'calendar',
-    url: '/admin/calendario',
-    icon: 'calendar',
-    children: null,
-  },
-  {
-    label: 'Clientes',
-    id: 'clients',
-    url: '/admin/clients',
-    icon: 'clients',
-    children: null,
-  },
-  {
-    label: 'Equipa',
-    id: 'staff',
-    url: '/admin/equipa',
-    icon: 'team',
-    children: null,
-  },
-  {
-    label: 'Serviços',
-    id: 'services',
-    url: '/admin/servicos',
-    icon: 'services',
-    children: null,
-  },
-  {
-    label: 'Definições',
-    id: 'settings',
-    url: '/admin/definicao',
-    icon: 'settings',
-    children: null,
-  },
-])
-
-const page = usePage()
-
-const mapping = (items) => items.map(item => ({
-  ...item,
-  key: item.id,
-  label: item.url != null ? () => h(InertiaLink, { href: item.url }, { default: () => item.label }) : item.label,
-  icon: item.icon != null ? () => h(Icon, { type: item.icon }) : undefined,
-  children: item.children && mapping(item.children)
-}))
+const { menus, mapping, matchExpanded, currentKey, expandedKeys, collapsed, toggleCollapsed } = useMenus()
 
 const options = computed(() => (menus.value ? mapping(menus.value) : []))
-
-const currentKey = ref('')
-const expandedKeys = ref([])
-
-const routeMatched = (menu) => {
-  return page.url.value === menu.url && (menu.params == null || JSON.stringify(page.url.value) === JSON.stringify(menu.params))
-}
-
-const matchExpanded = (items) => {
-  let matched = false
-  for (const item of items) {
-    if (item.children != null) {
-      matchExpanded(item.children) && expandedKeys.value.push(item.id)
-    }
-    if (routeMatched(item)) {
-      currentKey.value = item.id
-      matched = true
-    }
-  }
-  return matched
-}
-
-//watchEffect(() => menus.value && matchExpanded(menus.value))
+watchEffect(() => menus.value && matchExpanded(menus.value))
 </script>
 
 <style scoped>
