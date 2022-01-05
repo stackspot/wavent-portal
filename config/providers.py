@@ -46,5 +46,5 @@ PROVIDERS = [
     ORMProvider,
     # third party packages
     InertiaProvider,
-    # JSRoutesProvider
+    JSRoutesProvider,
 ]
