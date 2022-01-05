@@ -1,4 +1,4 @@
 masonite>=4.0,<5.0
 masonite-orm>=2.0,<3.0
-https://github.com/josephmancuso/masonite-inertia/archive/patch-2.zip
+masonite-inertia
 masonite-js-routes
