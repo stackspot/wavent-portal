@@ -3,10 +3,6 @@
     <n-button text @click="$inertia.reload()">
       <icon type="refresh" size="20" :depth="2" />
     </n-button>
-    <n-breadcrumb>
-      <n-breadcrumb-item>Dashboard</n-breadcrumb-item>
-      <n-breadcrumb-item>Home</n-breadcrumb-item>
-    </n-breadcrumb>
     <n-space :size="20" align="center" style="line-height: 1">
       <n-tooltip>
         <template #trigger>
