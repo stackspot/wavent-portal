@@ -10,7 +10,7 @@ import route from 'ziggy-js'
 
 import { AdminLayout } from '@/layout'
 
-//require('windi.css')
+import 'windi.css'
 
 const el = document.getElementById('app')
 
