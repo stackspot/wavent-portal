@@ -4,7 +4,9 @@
       <sidebar />
       <n-layout :native-scrollbar="false">
         <Header />
-        <Content />
+        <n-layout-content content-style="padding: 16px; min-height: 85vh">
+          <slot />
+        </n-layout-content>
         <Footer />
       </n-layout>
     </n-layout>
@@ -12,6 +14,6 @@
 </template>
 
 <script setup>
-import { BaseLayout, Sidebar, Header, Content, Footer } from './index'
+import { BaseLayout, Sidebar, Header, Footer } from './index'
 // workbench
 </script>
