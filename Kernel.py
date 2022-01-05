@@ -3,7 +3,8 @@ from masonite.configuration import config
 from masonite.configuration.Configuration import Configuration
 from masonite.environment import LoadEnvironment
 from masonite.foundation import response_handler
-from masonite.inertia import InertiaMiddleware
+
+# TODOfrom masonite.inertia import InertiaMiddleware
 from masonite.middleware import (
     EncryptCookies,
     LoadUserMiddleware,
@@ -15,13 +16,14 @@ from masonite.storage import StorageCapsule
 from masonite.utils.location import base_path
 from masonite.utils.structures import load
 
+from app.middlewares.HandleInertiaRequests import HandleInertiaRequests
 from app.middlewares.VerifyCsrfToken import VerifyCsrfToken
 from config.filesystem import STATICFILES
 
 
 class Kernel:
 
-    http_middleware = [MaintenanceModeMiddleware, InertiaMiddleware, EncryptCookies]
+    http_middleware = [MaintenanceModeMiddleware, HandleInertiaRequests, EncryptCookies]
 
     route_middleware = {
         "web": [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
