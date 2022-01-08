@@ -1,25 +1,51 @@
+from app.models.Schedule import Schedule
 from masonite.controllers import Controller
+from masonite.facades import Request, Response, Session
 from masonite.views import View
 
 
 class SchedulesController(Controller):
-    def index(self, view: View):
-        return view.render("")
+    def __init__(self):
+        self.request = Request
+        self.response = Response
+        self.session = Session
 
-    def create(self, view: View):
-        return view.render("")
+    def index(self):
+        schedules = Schedule.all()
+        return self.response.json({"schedules": schedules.serialize()})
 
-    def store(self, view: View):
-        return view.render("")
+    def create(self):
+        pass
 
-    def show(self, view: View):
-        return view.render("")
+    def store(self):
 
-    def edit(self, view: View):
-        return view.render("")
+        try:
+            Schedule.bulk_create(
+                [self.request.all().only("start_time", "finish_time", "is_working")]
+            )
+        except Exception as e:
+            return self.response.redirect(name="users.index").with_errors("Erro ao criar Horários")
 
-    def update(self, view: View):
-        return view.render("")
+        return self.response.redirect(name="dashboard")
 
-    def destroy(self, view: View):
-        return view.render("")
+    def show(self):
+        pass
+
+    def edit(self):
+        pass
+
+    def update(self):
+        schedule = Schedule.find(self.request.param("schedule"))
+
+        schedule.update({**self.request.only("start_time", "finish_time", "is_working")})
+
+        self.session.flash("success", "Horário Atualizado.")
+        return self.request.redirect("users.index")
+
+    def destroy(self):
+        schedule = Schedule.find(self.request.param("schedule"))
+
+        schedule.delete()
+
+        self.session.flash("success", "Horário Removido.")
+        return self.request.redirect("users.index")

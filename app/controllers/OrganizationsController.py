@@ -28,9 +28,9 @@ class OrganizationsController(Controller):
         self.storage = storage
 
     def index(self):
-        organizations = Organization.all()
+        # organizations = Organization.all()
 
-        return self.view.render("")
+        return self.view.render("Organization/index")
 
     def create(self):
         return self.view.render("")
@@ -53,15 +53,15 @@ class OrganizationsController(Controller):
             # save file
             brand_image = self.storage.disk.put_file("brands", self.request.input("brand_image"))
 
-        Organization.create(
+        """  Organization.create(
             **self.request.only(
                 "name", "email", "phone", "address", "city", "region", "country", "postal_code"
             ),
             logo=logo,
             brand_image=brand_image,
             # account_id=self.request.user().account_id,
-        )
-        return self.view.render("")
+        ) """
+        return self.response.redirect(name="org.index")
 
     def show(self):
         # organization = self.request.user().organizations()

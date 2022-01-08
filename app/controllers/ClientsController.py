@@ -38,21 +38,33 @@ class ClientsController(Controller):
         if errors:
             self.session.flash("error", "Houve um error ao criar o cliente.")
             return self.response.redirect(name="client.index").with_errors(errors).with_input()
-        Client.create(**self.request.all())
+        Client.create(**self.request.only("name", "email", "phone"))
 
         self.session.flash("success", "Cliente adicionado com sucesso.")
         return self.response.redirect(name="client.index")
 
     def show(self):
         client = Client.find(self.request.param("client_id"))
+
+        if not client:
+            self.response.redirect(name="client.index").with_errors("Cliente não existe!")
+
         return self.view.render("Client/details")
 
     def edit(self):
         client = Client.find(self.request.param("client_id"))
+
+        if not client:
+            self.response.redirect(name="client.index").with_errors("Cliente não existe!")
+
         return self.view.render("Client/edit")
 
     def update(self):
         client = Client.find(self.request.param("client_id"))
+
+        if not client:
+            self.response.redirect(name="client.index").with_errors("Cliente não existe!")
+
         errors = self.request.validate(
             self.validate.required(["name", "email", "phone"]), self.validate.email("email")
         )
@@ -61,15 +73,16 @@ class ClientsController(Controller):
             self.session.flash("error", "Houve um error ao atualizar o cliente.")
             return self.response.redirect(name="client").with_errors(errors).with_input()
 
-        client.name = self.request.input("name")
-        client.email = self.request.input("email")
-        client.phone = self.request.input("phone")
+        client.update(**self.request.only("name", "email", "phone"))
 
         self.session.flash("success", "Cliente atualizado com sucesso.")
         return self.response.redirect(name="client.index")
 
     def destroy(self):
         client = Client.find(self.request.param("client_id"))
+
+        if not client:
+            self.response.redirect(name="client.index").with_errors("Cliente não existe!")
 
         client.delete()
         self.session.flash("success", "Cliente apagado com sucesso.")

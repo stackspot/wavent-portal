@@ -1,25 +1,28 @@
 from masonite.controllers import Controller
-from masonite.views import View
+from masonite.inertia import Inertia
 
 
 class SettingsController(Controller):
-    def index(self, view: View):
-        return view.render("")
+    def __init__(self, view: Inertia):
+        self.view = view
 
-    def create(self, view: View):
-        return view.render("")
+    def index(self):
+        return self.view.render("Settings/index")
 
-    def store(self, view: View):
-        return view.render("")
+    def create(self):
+        return self.view.render("")
 
-    def show(self, view: View):
-        return view.render("")
+    def store(self):
+        return self.view.render("")
 
-    def edit(self, view: View):
-        return view.render("")
+    def show(self):
+        return self.view.render("")
 
-    def update(self, view: View):
-        return view.render("")
+    def edit(self):
+        return self.view.render("")
 
-    def destroy(self, view: View):
-        return view.render("")
+    def update(self):
+        return self.view.render("")
+
+    def destroy(self):
+        return self.view.render("")
