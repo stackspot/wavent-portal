@@ -24,22 +24,18 @@
 </template>
 
 <script setup>
-import { h, ref, reactive } from 'vue'
-import { NButton, NSpace, useMessage } from 'naive-ui'
+import { h } from 'vue'
+import { NButton, NSpace } from 'naive-ui'
+import { usePage } from '@inertiajs/inertia-vue3'
 
-const message = useMessage()
+const page = usePage()
 
-const state = reactive({
-  showModal: false
+const props = defineProps({
+  users: Array
 })
+console.log("Index errors: ", page.props.value.errors)
 
-const toggleModel = (value) => {
-  state.showModel = value
-}
-const handleBack = () => {
-  window.navigator.back()
-}
-const createColumns = ({ sendMail }) => {
+const createColumns = () => {
   return [
     {
       title: 'Nome',
@@ -62,7 +58,6 @@ const createColumns = ({ sendMail }) => {
             NButton,
             {
               size: 'small',
-              onClick: () => sendMail(row)
             },
             { default: () => actName }
           )
@@ -95,16 +90,9 @@ const createData = () => [
     duration: '30min'
   }
 ]
-const props = defineProps({
-  users: Array
-})
 
 const data = createData()
-const columns = createColumns({
-  sendMail (rowData) {
-    message.info('Editar ' + rowData.name)
-  }
-})
+const columns = createColumns()
 
 const pagination = {
   pageSize: 10

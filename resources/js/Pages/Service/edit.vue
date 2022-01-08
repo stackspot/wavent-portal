@@ -8,24 +8,31 @@
     </template>
   </n-page-header>
   <div class="max-w-2xl w-full mx-auto" cols="12">
-    <n-form :model="service" ref="formRef" label-placement="top">
+    <n-alert
+      v-if="showError"
+      title="Compos Vázios"
+      type="error"
+      closable
+      class="mb-4"
+    >Preencha os campos obrigatórios.</n-alert>
+    <n-form :model="service" :rules="rules" ref="formRef" label-placement="top">
       <n-grid cols="12" responsive="screen" :x-gap="24">
-        <n-form-item-gi :span="12" label="Nome do serviço" path="service_name">
+        <n-form-item-gi :span="12" label="Nome do serviço" path="name">
           <n-input placeholder="Input" v-model:value="service.name" />
         </n-form-item-gi>
-        <n-form-item-gi :span="12" label="Preço do serviço" path="service_price">
+        <n-form-item-gi :span="12" label="Preço do serviço" path="price">
           <n-input-number v-model:value="service.price" :step="0.01" placeholder="Preço do serviço">
             <template #prefix>€</template>
           </n-input-number>
         </n-form-item-gi>
-        <n-form-item-gi :span="12" label="Duração do serviço" path="service_duration">
+        <n-form-item-gi :span="12" label="Duração do serviço" path="duration">
           <n-select
             v-model:value="service.duration"
             :options="options"
             placeholder="Duração do serviço"
           />
         </n-form-item-gi>
-        <n-form-item-gi :span="12" label="Atribuir ao pessoal" path="service_duration">
+        <n-form-item-gi :span="12" label="Atribuir ao pessoal" path="stuff">
           <n-select
             v-model:value="service.staff"
             :options="staffOptions"
@@ -36,26 +43,57 @@
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button>Guardar Alteração</n-button>
+        <n-button
+          :desabled="service.processing"
+          @click="updateService"
+          type="primary"
+          :loading="service.processing"
+        >Guardar Alteração</n-button>
       </n-space>
     </n-form>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { useForm } from "@inertiajs/inertia-vue3"
+import { useRoute } from '@/composables'
 
-const durations = []
-const props = defineProps({
-  showModal: Boolean,
-})
+const formRef = ref(null)
+const showError = ref(false)
 
-const service = reactive({
+const { route } = useRoute()
+
+const service = useForm({
   price: null,
   name: null,
   duration: null,
   staff: null,
+  description: ''
 })
+
+const rules = {
+  price: {
+    required: true,
+    message: 'Digite o preço do serviço'
+  },
+  name: {
+    required: true,
+    message: 'Digite o nome do serviço'
+  },
+  duration: {
+    required: true,
+    message: 'Escolha a duração do serviço'
+  }
+}
+const updateService = () => {
+  formRef.value.validate((errors) => {
+    if (!errors) {
+      service.post(route('service.update'))
+    }
+    showError.value = true
+  })
+}
+
 
 const generateTime = () => {
   let quarterHours = ["00", "15", "30", "45"];

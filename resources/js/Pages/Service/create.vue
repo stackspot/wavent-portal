@@ -2,54 +2,37 @@
   <n-page-header class="mb-6">
     <template #title>
       <n-breadcrumb>
-        <n-breadcrumb-item>Serviços</n-breadcrumb-item>
+        <n-breadcrumb-item @click="$inertia.get(route('services.index'))">Serviços</n-breadcrumb-item>
         <n-breadcrumb-item>Novo Serviço</n-breadcrumb-item>
       </n-breadcrumb>
     </template>
   </n-page-header>
   <div class="max-w-2xl w-full mx-auto" cols="12">
-    <n-form :model="service" ref="formRef" label-placement="top">
-      <n-grid cols="12" responsive="screen" :x-gap="24">
-        <n-form-item-gi
-          :span="12"
-          label="Nome do serviço"
-          path="service_name"
-          :feadback="service.name?.errors"
-          :validation-status="service.name?.errors ? 'error' : ''"
-        >
+    <n-alert
+      v-if="showError"
+      title="campos Vázios"
+      type="error"
+      closable
+      class="mb-4"
+    >Preencha os campos obrigatórios.</n-alert>
+    <n-form :model="service" ref="formRef" :rules="rules" label-placement="top">
+      <n-grid cols="12" item-responsive responsive="screen" :x-gap="24">
+        <n-form-item-gi span="12" label="Nome do serviço" path="name">
           <n-input placeholder="Input" v-model:value="service.name" />
         </n-form-item-gi>
-        <n-form-item-gi
-          :span="12"
-          label="Preço do serviço"
-          path="service_price"
-          :feadback="service.price?.errors"
-          :validation-status="service.price?.errors ? 'error' : ''"
-        >
+        <n-form-item-gi span="12 m:6" label="Preço do serviço" path="price">
           <n-input-number v-model:value="service.price" :step="0.01" placeholder="Preço do serviço">
             <template #prefix>€</template>
           </n-input-number>
         </n-form-item-gi>
-        <n-form-item-gi
-          :span="12"
-          label="Duração do serviço"
-          path="service_duration"
-          :feadback="service.duration?.errors"
-          :validation-status="service.duration?.errors ? 'error' : ''"
-        >
+        <n-form-item-gi span="12 m:6" label="Duração do serviço" path="duration">
           <n-select
             v-model:value="service.duration"
             :options="options"
             placeholder="Duração do serviço"
           />
         </n-form-item-gi>
-        <n-form-item-gi
-          :span="12"
-          label="Atribuir ao pessoal"
-          path="service_duration"
-          :feadback="service.staff?.errors"
-          :validation-status="service.staff?.errors ? 'error' : ''"
-        >
+        <n-form-item-gi :span="12" label="Atribuir ao pessoal" path="staff">
           <n-select
             v-model:value="service.staff"
             :options="staffOptions"
@@ -60,7 +43,12 @@
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button :desabled="service.processing" @click="createService">Adicionar serviço</n-button>
+        <n-button
+          :desabled="service.processing"
+          @click="createService"
+          type="primary"
+          :loading="service.processing"
+        >Adicionar serviço</n-button>
       </n-space>
     </n-form>
   </div>
@@ -68,8 +56,17 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { useForm } from "@inertiajs/inertia-vue3"
+import { useForm, usePage } from "@inertiajs/inertia-vue3"
+import { useRoute } from '@/composables'
 
+const formRef = ref(null)
+const showError = ref(false)
+const { route } = useRoute()
+const page = usePage()
+
+const props = defineProps({
+  errors: Object
+})
 
 const service = useForm({
   price: null,
@@ -79,8 +76,27 @@ const service = useForm({
   description: ''
 })
 
+const rules = {
+  price: {
+    required: true,
+    message: 'Digite o preço do serviço'
+  },
+  name: {
+    required: true,
+    message: 'Digite o nome do serviço'
+  },
+  duration: {
+    required: true,
+    message: 'Escolha a duração do serviço'
+  }
+}
 const createService = () => {
-  service.post('/admin/servicos')
+  formRef.value.validate((errors) => {
+    if (!errors) {
+      service.post(route('service.store'))
+    }
+    showError.value = true
+  })
 }
 const generateTime = () => {
   let quarterHours = ["00", "15", "30", "45"];
