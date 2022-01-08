@@ -12,6 +12,7 @@ class CreateSchedulesTable(Migration):
             table.increments("id").primary()
             table.datetime("start_time")
             table.datetime("finish_time")
+            table.boolean("is_working").default(True)
             table.timestamps()
             table.soft_deletes()
 
