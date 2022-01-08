@@ -6,15 +6,16 @@ import { createPinia } from 'pinia'
 
 import naive from './naive'
 
-import route from 'ziggy-js'
+import { useRoute } from '@/composables'
 
 import { AdminLayout } from '@/layout'
 
 import 'windi.css'
-
 const el = document.getElementById('app')
 
 progress.init()
+
+const { route } = useRoute()
 
 const vueApp = createApp({
 	render: () =>
@@ -32,4 +33,9 @@ const vueApp = createApp({
 	.use(naive)
 	.component('inertia-link', Link)
 
+vueApp.mixin({
+	methods: {
+		route,
+	},
+})
 vueApp.mount(el)
