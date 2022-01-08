@@ -1,5 +1,5 @@
 <template>
-  <FullCalendar class="demo-app-calendar" :options="calendarOptions" ref="calendar">
+  <FullCalendar class="z-1" :options="calendarOptions" ref="calendar">
     <template v-slot:eventContent="arg">
       <div class="flex flex-col gap-2 p-1">
         <b>{{ arg.timeText }}</b>
@@ -17,9 +17,56 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import ptLocale from '@fullcalendar/core/locales/pt';
-//import useEvent from "@/composables/useEvents.js"
+import { useEvents } from "@/composables"
 
 let emit = defineEmits(['createEvent'])
+let events = ref([
+  {
+    start: '2022-01-09 10:35',
+    end: '2022-01-09 12:30',
+    title: 'Doctor appointment',
+  },
+  {
+    start: '2022-01-08 18:30',
+    end: '2022-01-08 19:15',
+    title: 'Dentist appointment',
+  },
+  {
+    start: '2022-01-03 18:30',
+    end: '2022-01-03 19:30',
+    title: 'Crossfit',
+  },
+  {
+    start: '2022-01-04 12:00',
+    end: '2022-01-04 13:00',
+    title: 'Brunch with Jane',
+  },
+  {
+    start: '2022-01-05 19:00',
+    end: '2022-01-05 19:45',
+    title: 'Swimming lesson',
+  },
+  {
+    start: '2022-01-07 19:00',
+    end: '2022-01-07 19:45',
+    title: 'Swimming lesson',
+  },
+  {
+    start: '2022-01-06 12:00',
+    end: '2022-01-06 14:00',
+    title: 'LUNCH',
+    class: 'lunch',
+    background: true,
+  },
+  {
+    start: '2022-01-07 12:00',
+    end: '2022-01-07 14:00',
+    title: 'LUNCH',
+    class: 'lunch',
+    background: true,
+  },
+])
+
 
 let calendarOptions = reactive({
   plugins: [
@@ -42,7 +89,7 @@ let calendarOptions = reactive({
   },
   locale: ptLocale,
   initialView: 'timeGridWeek',
-  initialEvents: [], // alternatively, use the `events` setting to fetch from a feed
+  initialEvents: events.value, // alternatively, use the `events` setting to fetch from a feed
   editable: true,
   selectable: true,
   selectMirror: true,
@@ -60,10 +107,10 @@ let calendarOptions = reactive({
   scrollTime: '08:00',
   slotMinTime: '08:00:00',
   slotMaxTime: '20:30:00',
-  slotDuration: '00:30:00',
+  slotDuration: '00:15:00',
   nowIndicator: true,
   businessHours: true,
-  eventColor: "#001280",
+  eventColor: "#ffa101",
 })
 
 </script>
