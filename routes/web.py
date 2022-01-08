@@ -5,6 +5,7 @@ from .controllers_routes import (
     ACCOUNT_ROUTES,
     APPOINTMENT_ROUTES,
     CLIENT_ROUTES,
+    ORGANIZATION_ROUTES,
     SCHEDULE_ROUTES,
     SERVICE_ROUTES,
     USER_ROUTES,
@@ -30,6 +31,11 @@ ROUTES = [
                 name="account.",
             ),
             Route.group(
+                ORGANIZATION_ROUTES,
+                prefix="/empresa",
+                name="organization.",
+            ),
+            Route.group(
                 SCHEDULE_ROUTES,
                 prefix="/schedule",
                 name="schedule.",
@@ -44,6 +50,7 @@ ROUTES = [
                 prefix="/servicos",
                 name="service.",
             ),
+            Route.get("/definicao", "SettingsController@index").name("settings"),
         ],
         prefix="/admin",
     ),
