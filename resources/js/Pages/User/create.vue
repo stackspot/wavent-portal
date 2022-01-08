@@ -17,7 +17,7 @@
           <n-input type="email" placeholder="Email" v-model:value="user.email" />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Nº tlemovel" path="user_phone">
-          <n-input type="phone" placeholder="Nº Telemovel" v-model:value="user.phone" />
+          <n-input type="tel" placeholder="Nº Telemovel" v-model:value="user.phone" />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Serviços">
           <n-select
@@ -30,7 +30,12 @@
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button>Adicionar membro</n-button>
+        <n-button
+          @click="createUser"
+          :disabled="user.processing"
+          type="primary"
+          :loading="user.processing"
+        >Adicionar membro</n-button>
       </n-space>
     </n-form>
   </div>
@@ -38,14 +43,22 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { useForm } from "@inertiajs/inertia-vue3"
+import { useRoute } from '@/composables'
 
-const user = reactive({
+const user = useForm({
   name: null,
   email: null,
   phone: null,
   services: null,
 })
 
+const { route } = useRoute()
+
+
+const createUser = () => {
+  user.post(route('users.store'))
+}
 const servicesOptions = [
   {
     label: 'Hair Cut',

@@ -30,22 +30,34 @@
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button>Guardar Mudanças</n-button>
+        <n-button
+          @click="updateUser"
+          :disabled="user.processing"
+          type="primary"
+          :loading="user.processing"
+        >Guardar membro</n-button>
       </n-space>
     </n-form>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { useForm } from "@inertiajs/inertia-vue3"
+import { useRoute } from '@/composables'
 
-const user = reactive({
+const user = useForm({
   name: null,
   email: null,
   phone: null,
   services: null,
 })
 
+const { route } = useRoute()
+
+
+const updateUser = () => {
+  user.post(route('users.update'))
+}
 const servicesOptions = [
   {
     label: 'Hair Cut',
