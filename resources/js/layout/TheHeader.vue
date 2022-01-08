@@ -1,5 +1,5 @@
 <template>
-  <n-layout-header bordered>
+  <n-layout-header bordered class="bg-white z-5">
     <n-button text @click="$inertia.reload()">
       <icon type="refresh" size="20" :depth="2" />
     </n-button>
@@ -37,7 +37,7 @@
         :options="options"
         @select="handleOptionsSelect"
       >
-        <n-avatar size="small" round src />
+        <n-avatar size="small" round class="bg-blue-300 text-lg">J</n-avatar>
       </n-dropdown>
     </n-space>
   </n-layout-header>
@@ -62,8 +62,8 @@ const labelLink = (to, label) => h(InertiaLink, { href: to }, { default: (props)
 const options = computed(() => [
   { key: 'me', label: `Hey, Jack!` },
   { key: 'divider', type: 'divider' },
-  { key: 'profile', label: () => labelLink('/profile', 'Perfil'), icon: renderIcon('user') },
-  { key: 'settings', label: () => labelLink('/profile/settings', 'Difinições'), icon: renderIcon('settings') },
+  { key: 'profile', label: () => labelLink('/profile', 'Perfil'), icon: () => h(Icon, { type: 'user' }) },
+  { key: 'settings', label: () => labelLink('/profile/settings', 'Difinições'), icon: () => h(Icon, { type: 'settings' }) },
   { key: 'divider', type: 'divider' },
   { key: 'logout', label: 'Sair' }
 ])
@@ -81,7 +81,6 @@ const handleOptionsSelect = async (key) => {
 .n-layout-header {
   position: sticky;
   top: 0;
-  z-index: 1;
   display: flex;
   align-items: center;
   padding: 9px 18px;

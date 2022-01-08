@@ -15,5 +15,6 @@
 
 <script setup>
 import { BaseLayout, Sidebar, Header, Footer } from './index'
-// workbench
+
+
 </script>
