@@ -1,5 +1,5 @@
 <template>
-  <n-layout-header bordered class="bg-white z-5">
+  <n-layout-header bordered class="bg-white">
     <n-button text @click="$inertia.reload()">
       <icon type="refresh" size="20" :depth="2" />
     </n-button>
@@ -84,6 +84,7 @@ const handleOptionsSelect = async (key) => {
   display: flex;
   align-items: center;
   padding: 9px 18px;
+  z-index: 10;
 }
 
 .n-button {
