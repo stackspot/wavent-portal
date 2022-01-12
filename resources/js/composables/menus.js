@@ -49,12 +49,6 @@ export const useMenus = createSharedComposable(() => {
 		},
 	])
 
-	const collapsed = ref(false) // make sidebar collapsed
-
-	const toggleCollapsed = async () => {
-		collapsed.value = !collapsed.value
-	}
-
 	const currentKey = ref('') // the current menu item selected
 	const expandedKeys = ref([]) // the current menu item selected expanded (for child menus)
 
@@ -104,10 +98,8 @@ export const useMenus = createSharedComposable(() => {
 		uuid,
 		currentKey,
 		expandedKeys,
-		collapsed,
 		// methods
 		matchExpanded,
-		toggleCollapsed,
 		mapping,
 	}
 })
