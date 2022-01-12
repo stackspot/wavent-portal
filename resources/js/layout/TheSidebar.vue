@@ -2,11 +2,11 @@
   <n-layout-sider
     :width="220"
     :native-scrollbar="false"
-    :collapsed="collapsed"
+    :collapsed="state.openSideBar"
     collapse-mode="width"
     show-trigger="bar"
     bordered
-    @update:collapsed="toggleCollapsed"
+    @update:collapsed="toggleSidebar"
   >
     <inertia-link href="/" class="n-a logo">
       <wavent-icon></wavent-icon>
@@ -24,11 +24,16 @@
 
 <script setup>
 import { computed, watchEffect } from 'vue'
-import { useMenus } from '@/composables/menus'
+import { useMenus, useState } from '@/composables'
 import { WaventIcon } from '@/components'
 
-const { menus, mapping, matchExpanded, currentKey, expandedKeys, collapsed, toggleCollapsed } = useMenus()
+const { state, toggleSidebar } = useState()
+const { menus, mapping, matchExpanded, currentKey, expandedKeys } = useMenus()
 
+
+/* const toggleCollapsed = async () => {
+		toggleSidebar()
+	} */
 const options = computed(() => (menus.value ? mapping(menus.value) : []))
 watchEffect(() => menus.value && matchExpanded(menus.value))
 </script>
