@@ -4,11 +4,13 @@
       <n-tab-pane name="Horário Comercial">
         <schedules></schedules>
       </n-tab-pane>
-      <n-tab-pane name="ROCKLIFE">ROCKLIFE</n-tab-pane>
+      <n-tab-pane name="Empresa">
+        <company-profile></company-profile>
+      </n-tab-pane>
     </n-tabs>
   </n-card>
 </template>
 <script setup>
 import schedules from './schedules.vue'
-
+import CompanyProfile from './companyInfo.vue'
 </script>
