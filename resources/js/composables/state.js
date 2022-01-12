@@ -1,14 +1,13 @@
-import { createGlobalState, useStorage } from '@vueuse/core'
-import { reactive } from 'vue'
+import { createGlobalState, useStorage, useToggle } from '@vueuse/core'
+import { toRef } from 'vue'
 
-export default createGlobalState(function useState() {
-	const sidebar = reactive({
-		open: true,
+export const useState = createGlobalState(() => {
+	const state = useStorage('wavent-storage', {
+		openSideBar: true,
 	})
-
-	const toggleSidebar = () => {
-		sidebar.open = !sidebar.open
+	const toggleSidebar = async () => {
+		state.value.openSideBar = !state.value.openSideBar
 	}
 
-	return { sidebar, toggleSidebar }
+	return { state, toggleSidebar }
 })
