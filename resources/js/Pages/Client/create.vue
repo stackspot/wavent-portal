@@ -21,19 +21,34 @@
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button>Adicionar cliente</n-button>
+        <n-button
+          @click="createClient"
+          :disabled="client.processing"
+          :loading="client.processing"
+        >Adicionar cliente</n-button>
       </n-space>
     </n-form>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+//import { ref, reactive } from 'vue'
+import { useForm } from '@inertiajs/inertia-vue3'
+import { useRoute } from '@/composables'
 
-const client = reactive({
+const { route } = useRoute()
+
+const client = useForm({
   name: null,
   email: null,
   phone: null,
 })
 
+const createClient = () => {
+  try {
+    client.post(route('client.store'))
+  } catch (e) {
+    console.log(e)
+  }
+}
 </script>

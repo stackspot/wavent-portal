@@ -21,19 +21,36 @@
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button>Guardar Alteração</n-button>
+        <n-button @click="updateClient" :disabled="loading" :loading="loading">Guardar Alteração</n-button>
       </n-space>
     </n-form>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import { useRoute } from '@/composables'
 
-const client = reactive({
-  name: null,
-  email: null,
-  phone: null,
+const props = defineProps({
+  client: Object
 })
+
+const { route } = useRoute()
+const loading = ref(false)
+
+const updateClient = () => {
+  try {
+    loading.value = true
+    Inertia.post(route('client.update', props.client.id), client, {
+      onSuccess: () => loading.value = false,
+      onError: () => {
+        loading.value = false
+      },
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
 
 </script>

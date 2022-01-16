@@ -10,7 +10,7 @@
       </template>
       <template #extra>
         <n-space>
-          <n-button @click="$inertia.get('/admin/cliente/novo')">Novo Cliente</n-button>
+          <n-button @click="$inertia.get(route('client.create'))">Novo Cliente</n-button>
         </n-space>
       </template>
     </n-page-header>
@@ -20,8 +20,10 @@
 
 <script setup>
 import { h } from 'vue'
-import { NButton, NSpace, useMessage } from 'naive-ui'
+import { NButton, NSpace, useMessage, useDialog } from 'naive-ui'
+import { Inertia } from '@inertiajs/inertia'
 
+const dialog = useDialog()
 const message = useMessage()
 
 
@@ -43,19 +45,24 @@ const createColumns = ({ sendMail }) => {
       title: '',
       key: 'actions',
       render (row) {
-        const actions = ['Editar', 'Apagar'].map((actName) => {
-          return h(
-            NButton,
-            {
-              size: 'small',
-              onClick: () => sendMail(row)
-            },
-            { default: () => actName }
-          )
-        })
         return h(NSpace,
           {},
-          { default: () => actions })
+          {
+            default: () => [
+              h(NButton,
+                {
+                  size: 'small',
+                  onClick: () => editClient(row)
+                },
+                { default: () => 'Editar' }),
+              h(NButton,
+                {
+                  size: 'small',
+                  onClick: () => deleteClient(row)
+                },
+                { default: () => 'Delete' })
+            ]
+          })
       }
     }
   ]
@@ -82,14 +89,31 @@ const createData = () => [
   }
 ]
 const props = defineProps({
-  users: Array
+  clients: Array
 })
 
-const data = createData()
+const editClient = (rowData) => {
+  console.log(rowData)
+}
+
+const deleteClient = (rowData) => {
+  dialog.warning({
+    title: 'Apagar serviço',
+    content: 'O serviço será apagado permanentemente. Tens a certeza?',
+    positiveText: 'Sim, apagar!',
+    negativeText: 'Cancelar',
+    onPositiveClick: () => {
+      Inertia.delete(route('client.delete', rowData.id))
+      Inertia.reload({ only: ['clients'] })
+    },
+    onNegativeClick: () => {
+      message.error('Operação cancelada!')
+    }
+  })
+}
+const data = props.clients
 const columns = createColumns({
-  sendMail (rowData) {
-    message.info('send mail to ' + rowData.name)
-  }
+  editClient, deleteClient
 })
 
 const pagination = {
