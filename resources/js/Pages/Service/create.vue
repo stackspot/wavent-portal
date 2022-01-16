@@ -2,7 +2,7 @@
   <n-page-header class="mb-6">
     <template #title>
       <n-breadcrumb>
-        <n-breadcrumb-item @click="$inertia.get(route('services.index'))">Serviços</n-breadcrumb-item>
+        <n-breadcrumb-item @click="$inertia.get(route('service.index'))">Serviços</n-breadcrumb-item>
         <n-breadcrumb-item>Novo Serviço</n-breadcrumb-item>
       </n-breadcrumb>
     </template>
@@ -26,10 +26,12 @@
           </n-input-number>
         </n-form-item-gi>
         <n-form-item-gi span="12 m:6" label="Duração do serviço" path="duration">
-          <n-select
+          <n-time-picker
             v-model:value="service.duration"
-            :options="options"
             placeholder="Duração do serviço"
+            :minutes="15"
+            format="HH:mm"
+            class="w-full"
           />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Atribuir ao pessoal" path="staff">
@@ -55,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useForm, usePage } from "@inertiajs/inertia-vue3"
 import { useRoute } from '@/composables'
 
@@ -94,24 +96,12 @@ const createService = () => {
   formRef.value.validate((errors) => {
     if (!errors) {
       service.post(route('service.store'))
+    } else {
+      showError.value = true
     }
-    showError.value = true
   })
 }
-const generateTime = () => {
-  let quarterHours = ["00", "15", "30", "45"];
-  let times = [];
-  for (let i = 0; i < 24; i++) {
-    for (let j = 0; j < 4; j++) {
-      let time = i + "h" + quarterHours[j] + "min";
-      if (i < 10) {
-        time = "0" + time;
-      }
-      times.push(time);
-    }
-    return times
-  }
-}
+
 const staffOptions = [
   {
     label: 'John',
@@ -126,47 +116,5 @@ const staffOptions = [
     value: 264
   }
 ]
-const options = [
-  {
-    label: "15min",
-    value: 900,
-  },
-  {
-    label: "30min",
-    value: 1800,
-  },
-  {
-    label: "45min",
-    value: 2700,
-  },
-  {
-    label: "1h",
-    value: 3600,
-  },
-  {
-    label: "1h15min",
-    value: 4500,
-  },
-  {
-    label: "1h30min",
-    value: 5400,
-  },
-  {
-    label: "1h45min",
-    value: 8100,
-  },
-  {
-    label: "2h",
-    value: 9000,
-  },
-]
-const bodyStyle = {
-  width: '600px'
-}
-
-const segmentes = {
-  content: 'soft',
-  footer: 'soft'
-}
 
 </script>

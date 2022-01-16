@@ -2,7 +2,7 @@
   <n-page-header class="mb-6">
     <template #title>
       <n-breadcrumb>
-        <n-breadcrumb-item>Serviços</n-breadcrumb-item>
+        <n-breadcrumb-item @click="$inertia.get(route('service.index'))">Serviços</n-breadcrumb-item>
         <n-breadcrumb-item>Editar Serviço</n-breadcrumb-item>
       </n-breadcrumb>
     </template>
@@ -26,10 +26,11 @@
           </n-input-number>
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Duração do serviço" path="duration">
-          <n-select
+          <n-time-picker
             v-model:value="service.duration"
-            :options="options"
             placeholder="Duração do serviço"
+            :minutes="15"
+            format="HH:mm"
           />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Atribuir ao pessoal" path="stuff">
@@ -44,10 +45,10 @@
       </n-grid>
       <n-space>
         <n-button
-          :desabled="service.processing"
+          :desabled="loading"
           @click="updateService"
           type="primary"
-          :loading="service.processing"
+          :loading="loading"
         >Guardar Alteração</n-button>
       </n-space>
     </n-form>
@@ -55,7 +56,9 @@
 </template>
 
 <script setup>
-import { useForm } from "@inertiajs/inertia-vue3"
+import { ref } from 'vue'
+//import { useForm } from "@inertiajs/inertia-vue3"
+import { Inertia } from '@inertiajs/inertia'
 import { useRoute } from '@/composables'
 
 const formRef = ref(null)
@@ -63,13 +66,11 @@ const showError = ref(false)
 
 const { route } = useRoute()
 
-const service = useForm({
-  price: null,
-  name: null,
-  duration: null,
-  staff: null,
-  description: ''
+const props = defineProps({
+  service: Object
 })
+
+const loading = ref(false)
 
 const rules = {
   price: {
@@ -88,7 +89,14 @@ const rules = {
 const updateService = () => {
   formRef.value.validate((errors) => {
     if (!errors) {
-      service.post(route('service.update'))
+      loading.value = true
+      Inertia.post(route('service.update', service?.id), service, {
+        onSuccess: () => loading.value = false,
+        onError: () => {
+          loading.value = false
+          showError.value = true
+        },
+      })
     }
     showError.value = true
   })
@@ -123,47 +131,4 @@ const staffOptions = [
     value: 264
   }
 ]
-const options = [
-  {
-    label: "15min",
-    value: 900,
-  },
-  {
-    label: "30min",
-    value: 1800,
-  },
-  {
-    label: "45min",
-    value: 2700,
-  },
-  {
-    label: "1h",
-    value: 3600,
-  },
-  {
-    label: "1h15min",
-    value: 4500,
-  },
-  {
-    label: "1h30min",
-    value: 5400,
-  },
-  {
-    label: "1h45min",
-    value: 8100,
-  },
-  {
-    label: "2h",
-    value: 9000,
-  },
-]
-const bodyStyle = {
-  width: '600px'
-}
-
-const segmentes = {
-  content: 'soft',
-  footer: 'soft'
-}
-
 </script>
