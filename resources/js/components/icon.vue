@@ -37,9 +37,10 @@ import {
   ShiftsOpen20Regular as shifts_open,
   ShiftsTeam24Regular as shifts_team,
   Code20Filled as code,
+  MoreVertical24Regular as more
 } from '@vicons/fluent'
 
-const icons = { refresh, dashboard, posts, pages, media, users, comments, themes, plugins, tools, settings, add, help, notifications, fallback, calendar, users, user, services, logout, clients, company, calendar_person, calendar_sync, calendar_settings, team, preview_link, shifts, shifts_open, shifts_team, code }
+const icons = { refresh, dashboard, posts, pages, media, users, comments, themes, plugins, tools, settings, add, help, notifications, fallback, calendar, users, user, services, logout, clients, company, calendar_person, calendar_sync, calendar_settings, team, preview_link, shifts, shifts_open, shifts_team, code, more }
 
 const props = defineProps({
   ...NIcon.props,
