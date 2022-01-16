@@ -1,20 +1,30 @@
 from app.models.Service import Service
 from masonite.controllers import Controller
-from masonite.facades import Request, Response, Session
 from masonite.inertia import Inertia
+from masonite.request import Request
+from masonite.response import Response
+from masonite.sessions import Session
 from masonite.validation import Validator
 
 
 class ServicesController(Controller):
-    def __init__(self, view: Inertia, validate: Validator):
+    def __init__(
+        self,
+        view: Inertia,
+        request: Request,
+        response: Response,
+        session: Session,
+        validate: Validator,
+    ):
         self.view = view
-        self.request = Request
-        self.session = Session
-        self.response = Response
+        self.request = request
+        self.session = session
+        self.response = response
         self.validate = validate
 
     def index(self):
-        return self.view.render("Service/index")
+        services = Service.all()
+        return self.view.render("Service/index", {"services": services.serialize()})
 
     def create(self):
         return self.view.render("Service/create")
@@ -55,7 +65,7 @@ class ServicesController(Controller):
 
     def edit(self):
         service = Service.find(self.request.param("service"))
-
+        print("editar", service)
         if not service:
             self.response.status(404), "service not found"
 
@@ -63,7 +73,8 @@ class ServicesController(Controller):
 
     def update(self):
         service = Service.find(self.request.param("service"))
-
+        print(service)
+        print(self.request.all())
         if not service:
             return self.response.status(404)
 
@@ -75,15 +86,20 @@ class ServicesController(Controller):
                     "duration": "Forneça a duração do serviço em minutos.(e.g. 45 min.)",
                     "price": "Tens de fornecer o preço do serviço.(e.g. 7€)",
                 },
-            ),
-            self.validate.numeric(["duration"]),
+            )
         )
 
         if errors:
             self.session.flash("errors", errors)
-            return self.response.redirect(name="service.edit").with_input()
+            return self.response.redirect(name="service.index").with_input()
 
-        service.update(**self.request.only("name", "duration", "price"))
+        service.update(
+            {
+                "name": self.request.input("name"),
+                "price": self.request.input("price"),
+                "duration": self.request.input("duration"),
+            }
+        )
 
         self.session.flash("success", "Serviço atualizado com sucesso.")
         return self.response.redirect(name="service.index")
