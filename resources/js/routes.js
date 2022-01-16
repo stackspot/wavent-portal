@@ -3,25 +3,55 @@ var Ziggy = {
 	port: '8000',
 	defaults: {},
 	routes: {
-		'users.index': { uri: 'admin/equipa', methods: ['GET'], bindings: {} },
-		'users.create': {
-			uri: 'admin/equipa/novo',
+		'users.index': {
+			uri: 'admin/utilizadores',
 			methods: ['GET'],
 			bindings: {},
 		},
-		'users.store': { uri: 'admin/equipa', methods: ['POST'], bindings: {} },
+		'users.create': {
+			uri: 'admin/utilizadores/novo',
+			methods: ['GET'],
+			bindings: {},
+		},
+		'users.store': {
+			uri: 'admin/utilizadores',
+			methods: ['POST'],
+			bindings: {},
+		},
 		'users.show': {
-			uri: 'admin/equipa/{user}',
+			uri: 'admin/utilizadores/{user}',
 			methods: ['GET'],
 			bindings: {},
 		},
 		'users.update': {
-			uri: 'admin/equipa/{user}',
+			uri: 'admin/utilizadores/{user}',
 			methods: ['PUT'],
 			bindings: {},
 		},
 		'users.destroy': {
-			uri: 'admin/equipa/{user}',
+			uri: 'admin/utilizadores/{user}',
+			methods: ['DELETE'],
+			bindings: {},
+		},
+		'staff.index': { uri: 'admin/equipa', methods: ['GET'], bindings: {} },
+		'staff.create': {
+			uri: 'admin/equipa/novo',
+			methods: ['GET'],
+			bindings: {},
+		},
+		'staff.store': { uri: 'admin/equipa', methods: ['POST'], bindings: {} },
+		'staff.show': {
+			uri: 'admin/equipa/{staff}',
+			methods: ['GET'],
+			bindings: {},
+		},
+		'staff.update': {
+			uri: 'admin/equipa/{staff}',
+			methods: ['PUT'],
+			bindings: {},
+		},
+		'staff.destroy': {
+			uri: 'admin/equipa/{staff}',
 			methods: ['DELETE'],
 			bindings: {},
 		},
@@ -33,89 +63,77 @@ var Ziggy = {
 		},
 		'client.store': { uri: 'admin/cliente', methods: ['POST'], bindings: {} },
 		'client.show': {
-			uri: 'admin/cliente/{service}',
+			uri: 'admin/cliente/{client}',
 			methods: ['GET'],
 			bindings: {},
 		},
 		'client.update': {
-			uri: 'admin/cliente/{service}',
+			uri: 'admin/cliente/{client}',
 			methods: ['POST'],
 			bindings: {},
 		},
 		'client.delete': {
-			uri: 'admin/cliente/{service}/destroy',
+			uri: 'admin/cliente/{client}/destroy',
 			methods: ['DELETE'],
 			bindings: {},
 		},
-		'account.index': { uri: 'admin/account', methods: ['GET'], bindings: {} },
+		'account.index': { uri: 'admin/conta', methods: ['GET'], bindings: {} },
 		'account.store': {
-			uri: 'admin/account/store',
+			uri: 'admin/conta/store',
 			methods: ['POST'],
 			bindings: {},
 		},
 		'account.profile': {
-			uri: 'admin/account/{account}',
+			uri: 'admin/conta/{account}',
 			methods: ['GET'],
 			bindings: {},
 		},
 		'account.update': {
-			uri: 'admin/account/{account}',
+			uri: 'admin/conta/{account}',
 			methods: ['PUT'],
 			bindings: {},
 		},
 		'account.destroy': {
-			uri: 'admin/account/{account}',
+			uri: 'admin/conta/{account}',
 			methods: ['DELETE'],
 			bindings: {},
 		},
 		'account.settings': {
-			uri: 'admin/account/settings',
+			uri: 'admin/conta/settings',
 			methods: ['GET'],
 			bindings: {},
 		},
-		'organization.index': {
-			uri: 'admin/empresa',
+		'provider.index': { uri: 'admin/empresa', methods: ['GET'], bindings: {} },
+		'provider.store': { uri: 'admin/empresa', methods: ['POST'], bindings: {} },
+		'provider.profile': {
+			uri: 'admin/empresa/{provider}',
 			methods: ['GET'],
 			bindings: {},
 		},
-		'organization.store': {
-			uri: 'admin/empresa',
-			methods: ['POST'],
-			bindings: {},
-		},
-		'organization.profile': {
-			uri: 'admin/empresa/{organization}',
-			methods: ['GET'],
-			bindings: {},
-		},
-		'organization.update': {
-			uri: 'admin/empresa/{organization}',
+		'provider.update': {
+			uri: 'admin/empresa/{provider}',
 			methods: ['PUT'],
 			bindings: {},
 		},
-		'organization.destroy': {
-			uri: 'admin/empresa/{organization}',
+		'provider.destroy': {
+			uri: 'admin/empresa/{provider}',
 			methods: ['DELETE'],
 			bindings: {},
 		},
-		'organization.settings': {
+		'provider.settings': {
 			uri: 'admin/empresa/settings',
 			methods: ['GET'],
 			bindings: {},
 		},
-		'schedule.index': { uri: 'admin/schedule', methods: ['GET'], bindings: {} },
-		'schedule.store': {
-			uri: 'admin/schedule',
-			methods: ['POST'],
-			bindings: {},
-		},
+		'schedule.index': { uri: 'admin/horario', methods: ['GET'], bindings: {} },
+		'schedule.store': { uri: 'admin/horario', methods: ['POST'], bindings: {} },
 		'schedule.edit': {
-			uri: 'admin/schedule/{schedule}/edit',
+			uri: 'admin/horario/{schedule}/edit',
 			methods: ['GET'],
 			bindings: {},
 		},
 		'schedule.update': {
-			uri: 'admin/schedule/{schedule}',
+			uri: 'admin/horario/{schedule}',
 			methods: ['PUT'],
 			bindings: {},
 		},
