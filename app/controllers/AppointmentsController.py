@@ -1,21 +1,30 @@
 from app.models.Appointment import Appointment
+from app.models.Service import Service
+from app.models.User import User
 from masonite.controllers import Controller
-from masonite.facades import Request, Response, Session
 from masonite.inertia import Inertia
-from masonite.response import response
+from masonite.request import Request
+from masonite.response import Response, response
+from masonite.sessions import Session
 
 
 class AppointmentsController(Controller):
-    def __init__(self, view: Inertia):
+    def __init__(
+        self,
+        request: Request,
+        response: Response,
+        view: Inertia,
+        session: Session,
+    ):
         self.view = view
-        self.request = Request
-        self.response = Response
-        self.session = Session
+        self.request = request
+        self.response = response
+        self.session = session
 
     def index(self):
         appointments = Appointment.all()
 
-        return self.view.render("Appointment/index", {"appointments": appointments})
+        return self.view.render("Appointment/index")
 
     def create(self):
         return self.view.render("")
@@ -26,10 +35,13 @@ class AppointmentsController(Controller):
         # TODO: validate the request object
         # TODO: get the services, user(employee), then
         # TODO: create the appointment
-        Appointment.create(**self.request.all())
 
-        self.session.flash("success", "Serviço criado.")
-        return self.response.redirect("service.index")
+        service = Service.find(self.request.input("service"))
+        Appointment.create(**self.request.only())
+        # Appointment.save_many(service)
+        print(self.request.all())
+        self.session.flash("success", "Marcação criado com sucesso.")
+        return self.response.redirect(name="appointment.index")
 
     def show(self):
         # TODO: check if can get the appointment
