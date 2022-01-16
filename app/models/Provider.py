@@ -1,23 +1,25 @@
-""" User Model """
+""" Provider Model """
 
 from masoniteorm.models import Model
+from masoniteorm.relationships import belongs_to
 from masoniteorm.scopes import SoftDeletesMixin
 
 
-class Organization(Model, SoftDeletesMixin):
-    """Organization Model"""
+class Provider(Model, SoftDeletesMixin):
+    """Provider Model"""
 
     __fillable__ = [
         "name",
         "email",
-        "city",
         "phone",
         "address",
-        "postal_code",
         "description",
         "logo",
         "brand_image",
-        "region",
-        "country",
         "account_id",
     ]
+
+    @belongs_to
+    def account(self):
+        from app.models.Account import Account
+        return Account
