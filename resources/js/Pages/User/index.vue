@@ -20,12 +20,13 @@
 
 <script setup>
 import { h } from 'vue'
-import { NButton, NSpace, useMessage } from 'naive-ui'
+import { NButton, NSpace, useMessage, useDialog } from 'naive-ui'
+import { Inertia } from '@inertiajs/inertia'
 
 const message = useMessage()
+const dialog = useDialog()
 
-
-const createColumns = ({ sendMail }) => {
+const createColumns = ({ editUser, deleteUser }) => {
   return [
     {
       title: 'Nome',
@@ -43,19 +44,24 @@ const createColumns = ({ sendMail }) => {
       title: '',
       key: 'actions',
       render (row) {
-        const actions = ['Editar', 'Apagar'].map((actName) => {
-          return h(
-            NButton,
-            {
-              size: 'small',
-              onClick: () => sendMail(row)
-            },
-            { default: () => actName }
-          )
-        })
         return h(NSpace,
           {},
-          { default: () => actions })
+          {
+            default: () => [
+              h(NButton,
+                {
+                  size: 'small',
+                  onClick: () => editUser(row)
+                },
+                { default: () => 'Editar' }),
+              h(NButton,
+                {
+                  size: 'small',
+                  onClick: () => deleteUser(row)
+                },
+                { default: () => 'Delete' })
+            ]
+          })
       }
     }
   ]
@@ -85,11 +91,29 @@ const props = defineProps({
   users: Array
 })
 
+const editUser = (rowData) => {
+  console.log(rowData)
+}
+
+const deleteUser = (rowData) => {
+  dialog.warning({
+    title: 'Apagar serviço',
+    content: 'O serviço será apagado permanentemente. Tens a certeza?',
+    positiveText: 'Sim, apagar!',
+    negativeText: 'Cancelar',
+    onPositiveClick: () => {
+      Inertia.delete(route('users.delete', rowData.id))
+      Inertia.reload({ only: ['users'] })
+    },
+    onNegativeClick: () => {
+      message.error('Operação cancelado!')
+    }
+  })
+}
+
 const data = createData()
 const columns = createColumns({
-  sendMail (rowData) {
-    message.info('send mail to ' + rowData.name)
-  }
+  editUser, deleteUser
 })
 
 const pagination = {
