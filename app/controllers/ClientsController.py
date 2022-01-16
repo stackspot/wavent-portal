@@ -32,7 +32,7 @@ class ClientsController(Controller):
 
     def store(self):
         errors = self.request.validate(
-            self.validate.required(["name", "email", "phone"]), self.validate.email("email")
+            self.validate.required(["name", "email"]), self.validate.email("email")
         )
 
         if errors:
@@ -66,7 +66,7 @@ class ClientsController(Controller):
             self.response.redirect(name="client.index").with_errors("Cliente não existe!")
 
         errors = self.request.validate(
-            self.validate.required(["name", "email", "phone"]), self.validate.email("email")
+            self.validate.required(["name", "email"]), self.validate.email("email")
         )
 
         if errors:
