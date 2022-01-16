@@ -6,8 +6,18 @@ USER_ROUTES = [
     Route.post("", "UsersController@store").name("store"),
     Route.get("/@user", "UsersController@edit").name("show"),
     Route.put("/@user", "UsersController@update").name("update"),
-    Route.delete("/@user", "UsersController@delete").name("destroy"),
+    Route.delete("/@user", "UsersController@destroy").name("destroy"),
     # Route.post("/@user/settings", "SettingsController@user_settings").name("settings"),
+]
+
+STAFF_ROUTES = [
+    Route.get("", "StaffsController@index").name("index"),
+    Route.get("/novo", "StaffsController@create").name("create"),
+    Route.post("", "StaffsController@store").name("store"),
+    Route.get("/@staff", "StaffsController@edit").name("show"),
+    Route.put("/@staff", "StaffsController@update").name("update"),
+    Route.delete("/@staff", "StaffsController@destroy").name("destroy"),
+    # Route.post("/@staff/settings", "SettingsController@staff_settings").name("settings"),
 ]
 
 ACCOUNT_ROUTES = [
@@ -15,17 +25,17 @@ ACCOUNT_ROUTES = [
     Route.post("/store", "AccountsController@store").name("store"),
     Route.get("/@account", "AccountsController@edit").name("profile"),
     Route.put("/@account", "AccountsController@update").name("update"),
-    Route.delete("/@account", "AccountsController@delete").name("destroy"),
+    Route.delete("/@account", "AccountsController@destroy").name("destroy"),
     Route.get("/settings", "SettingsController@account_settings").name("settings"),
 ]
 
-ORGANIZATION_ROUTES = [
-    Route.get("", "OrganizationsController@index").name("index"),
-    Route.post("", "OrganizationsController@store").name("store"),
-    Route.get("/@organization", "OrganizationsController@edit").name("profile"),
-    Route.put("/@organization", "OrganizationsController@update").name("update"),
-    Route.delete("/@organization", "OrganizationsController@delete").name("destroy"),
-    Route.get("/settings", "SettingsController@organization_settings").name("settings"),
+PROVIDER_ROUTES = [
+    Route.get("", "ProvidersController@index").name("index"),
+    Route.post("", "ProvidersController@store").name("store"),
+    Route.get("/@provider", "ProvidersController@edit").name("profile"),
+    Route.put("/@provider", "ProvidersController@update").name("update"),
+    Route.delete("/@provider", "ProvidersController@destroy").name("destroy"),
+    Route.get("/settings", "SettingsController@provider_settings").name("settings"),
 ]
 
 APPOINTMENT_ROUTES = [
@@ -33,7 +43,7 @@ APPOINTMENT_ROUTES = [
     Route.post("/create", "AppointmentsController@store").name("store"),
     Route.get("/@appointment/edit", "AppointmentsController@edit").name("edit"),
     Route.put("/@appointment", "AppointmentsController@update").name("update"),
-    Route.delete("/@appointment", "AppointmentsController@delete").name("delete"),
+    Route.delete("/@appointment", "AppointmentsController@destroy").name("delete"),
     Route.get("/settings", "SettingsController@appointment_settings").name("settings"),
 ]
 
@@ -50,13 +60,13 @@ SERVICE_ROUTES = [
     Route.post("", "ServicesController@store").name("store"),
     Route.get("/@service/editar", "ServicesController@edit").name("edit"),
     Route.post("/@service", "ServicesController@update").name("update"),
-    Route.delete("/@service", "ServicesController@delete").name("delete"),
+    Route.delete("/@service", "ServicesController@destroy").name("delete"),
 ]
 CLIENT_ROUTES = [
     Route.get("", "ClientsController@index").name("index"),
     Route.get("/novo", "ClientsController@create").name("create"),
     Route.post("", "ClientsController@store").name("store"),
-    Route.get("/@service", "ClientsController@show").name("show"),
-    Route.post("/@service", "ClientsController@update").name("update"),
-    Route.delete("/@service/destroy", "ClientsController@delete").name("delete"),
+    Route.get("/@client", "ClientsController@show").name("show"),
+    Route.post("/@client", "ClientsController@update").name("update"),
+    Route.delete("/@client/destroy", "ClientsController@destroy").name("delete"),
 ]
