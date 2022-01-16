@@ -5,10 +5,11 @@ from .controllers_routes import (
     ACCOUNT_ROUTES,
     APPOINTMENT_ROUTES,
     CLIENT_ROUTES,
-    ORGANIZATION_ROUTES,
+    PROVIDER_ROUTES,
     SCHEDULE_ROUTES,
     SERVICE_ROUTES,
     USER_ROUTES,
+    STAFF_ROUTES,
 )
 
 ROUTES = [
@@ -17,8 +18,13 @@ ROUTES = [
         [
             Route.group(
                 USER_ROUTES,
-                prefix="/equipa",
+                prefix="/utilizadores",
                 name="users.",
+            ),
+            Route.group(
+                STAFF_ROUTES,
+                prefix="/equipa",
+                name="staff.",
             ),
             Route.group(
                 CLIENT_ROUTES,
@@ -27,17 +33,17 @@ ROUTES = [
             ),
             Route.group(
                 ACCOUNT_ROUTES,
-                prefix="/account",
+                prefix="/conta",
                 name="account.",
             ),
             Route.group(
-                ORGANIZATION_ROUTES,
+                PROVIDER_ROUTES,
                 prefix="/empresa",
-                name="organization.",
+                name="provider.",
             ),
             Route.group(
                 SCHEDULE_ROUTES,
-                prefix="/schedule",
+                prefix="/horario",
                 name="schedule.",
             ),
             Route.group(
