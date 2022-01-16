@@ -1,3 +1,4 @@
+from app.models.Account import Account
 from app.models.User import User
 from masonite.controllers import Controller
 from masonite.facades import Request, Response, Session
@@ -49,11 +50,8 @@ class UsersController(Controller):
         if errors:
             self.session.flash("errors", errors)
             return self.response.redirect(name="users.create").with_errors(errors).with_input()
-        """ self.request.session.flash("errors", "Preencha os campos")
-        return self.response.status(404) """
-        # TODO: implement add user to DB
 
-        User.create(**self.request.all())
+        User.create(**self.request.only("name", "email", "phone"))
 
         return self.response.back().with_success("Utilizador criado com sucesso.")
 
