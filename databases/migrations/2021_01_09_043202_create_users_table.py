@@ -11,11 +11,11 @@ class CreateUsersTable(Migration):
             table.string("password")
             table.boolean("is_active").default(False)
             table.boolean("is_admin").default(False)
-            table.boolean("is_provider").default(False)
-            table.boolean("is_staff").default(False)
             table.string("remember_token").nullable()
             table.string("phone", 50).nullable()
             table.timestamp("verified_at").nullable()
+            table.unsigned("account_id")
+            table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
             table.timestamps()
             table.soft_deletes()
 
