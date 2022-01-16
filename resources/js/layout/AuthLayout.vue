@@ -1,11 +1,11 @@
 <template>
-  <p>Auth Layout</p>
+  <base-layout>
+    <slot />
+  </base-layout>
 </template>
 
-<script>
-export default {
-
-}
+<script setup>
+import { BaseLayout } from './index'
 </script>
 
 <style>
