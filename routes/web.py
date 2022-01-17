@@ -8,12 +8,12 @@ from .controllers_routes import (
     PROVIDER_ROUTES,
     SCHEDULE_ROUTES,
     SERVICE_ROUTES,
-    USER_ROUTES,
     STAFF_ROUTES,
+    USER_ROUTES,
 )
 
 ROUTES = [
-    Route.get("/", "WelcomeController@show"),
+    Route.get("/", "WelcomeController@show").name("dashboard"),
     Route.group(
         [
             Route.group(
