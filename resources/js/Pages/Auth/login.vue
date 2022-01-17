@@ -17,7 +17,7 @@
     </n-form>
     <template #action>
       <n-button type="primary" @click="login">Aceder</n-button>
-      <n-button text @click="$inertia(route('register'))">Não tem conta? Criar conta!</n-button>
+      <n-button text @click="$inertia.get(route('register'))">Não tem conta? Criar conta!</n-button>
     </template>
   </n-card>
 </template>

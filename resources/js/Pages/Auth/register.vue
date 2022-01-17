@@ -6,23 +6,46 @@
         <n-input v-model:value="user.name" @keydown.enter.prevent placeholder="Ex. João Silva" />
       </n-form-item>
       <n-form-item path="email" label="Email">
-        <n-input v-model:value="user.email" @keydown.enter.prevent placeholder="Email" />
+        <n-input
+          type="email"
+          v-model:value="user.email"
+          @keydown.enter.prevent
+          placeholder="Email"
+        />
+      </n-form-item>
+      <n-form-item path="phone" label="Nº Telemovel">
+        <n-input
+          type="tel"
+          v-model:value="user.phone"
+          @keydown.enter.prevent
+          placeholder="Nº Telemovel"
+        />
       </n-form-item>
       <n-form-item path="password" label="Palavra-passe">
-        <n-input v-model:value="user.password" type="password" @keydown.enter.prevent />
+        <n-input
+          v-model:value="user.password"
+          :minlength="8"
+          show-password-on="mousedown"
+          type="password"
+          @keydown.enter.prevent
+        />
       </n-form-item>
-      <n-form-item first path="confirm_password" label="Confirmar Palavra-passe">
+      <n-form-item path="confirm_password" label="Confirmar Palavra-passe">
         <n-input
           :disabled="!user.password"
           v-model:value="user.password_confirmation"
           type="password"
+          :minlength="8"
+          show-password-on="mousedown"
           @keydown.enter.prevent
         />
       </n-form-item>
     </n-form>
     <template #action>
-      <n-button type="primary" @click="register">Criar Conta</n-button>
-      <n-button text @click="$inertia(route('login'))">Já tem conta? Entrar!</n-button>
+      <n-space align="center">
+        <n-button type="primary" @click="register">Criar Conta</n-button>
+        <n-button text @click="$inertia.get(route('login'))">Já tem conta? Entrar!</n-button>
+      </n-space>
     </template>
   </n-card>
 </template>
@@ -54,40 +77,27 @@ const user = useForm({
 
 function validatePasswordStartWith (rule, value) {
   return (
-    user.value.password &&
-    user.value.password.startsWith(value) &&
-    user.value.password.length >= value.length
+    user.password &&
+    user.password.startsWith(value) &&
+    user.password.length >= value.length
   )
 }
 
 function validatePasswordSame (rule, value) {
-  return value === user.value.password
+  return user.password_confirmation === user.password
 }
 
 const rules = {
-  password: [
-    {
-      required: true,
-      message: 'Palavra-passe obrigatório!'
-    }
-  ],
-  confirm_password: [
-    {
-      required: true,
-      message: 'Confirmar palavra-passe obrigatório!',
-      trigger: ['input', 'blur']
-    },
-    {
-      validator: validatePasswordStartWith,
-      message: 'Palavra-passes não são iguais!',
-      trigger: 'input'
-    },
-    {
-      validator: validatePasswordSame,
-      message: 'Palavra-passes não são iguais!',
-      trigger: ['blur']
-    }
-  ]
+  email: {
+    required: true,
+  },
+  name: {
+    required: true,
+  },
+  password: {
+    required: true,
+    message: 'Palavra-passe obrigatório!'
+  }
 }
 
 function register (e) {
