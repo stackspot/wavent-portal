@@ -25,11 +25,18 @@ class RegisterController(Controller):
         if errors:
             return response.back().with_errors(errors)
 
-        user = auth.register(request.only("name", "email", "password", "phone"))
-        if user:
-
-            Account.create({"name": auth.user().name, "slug": slugify(auth.user().name)})
+        account_slug = slugify(request.input("name"))
+        account = Account.create({"name": request.input("name"), "slug": account_slug}).fresh()
+        user = auth.register(
+            {
+                "name": request.input("name"),
+                "email": request.input("email"),
+                "password": request.input("password"),
+                "phone": request.input("phone"),
+                "account_id": account.id,
+            }
+        )
         if not user:
-            return response.redirect("/register")
+            return response.redirect(name="register")
 
         return response.redirect(name="dashboard")
