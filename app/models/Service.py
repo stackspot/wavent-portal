@@ -9,13 +9,13 @@ class Service(Model):
 
     __fillable__ = ["name", "price", "duration"]
 
-    @belongs_to
+    @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account
 
         return Account
 
-    @has_many
+    @has_many('id', 'service_id')
     def appointments(self):
         from app.models.Appointment import Appointment
 

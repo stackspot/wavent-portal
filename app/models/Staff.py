@@ -7,19 +7,19 @@ from masoniteorm.relationships import belongs_to, has_many
 class Staff(Model):
     """Staff Model"""
 
-    @belongs_to
+    @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account
 
         return Account
 
-    @has_many
+    @has_many("id", "staff_id")
     def services(self):
         from app.models.Service import Service
 
         return Service
 
-    @has_many
+    @has_many("id", "staff_id")
     def schedules(self):
         from app.models.Schedule import Schedule
 

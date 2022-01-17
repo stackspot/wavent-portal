@@ -10,7 +10,7 @@ class Schedule(Model):
     __dates__ = ["start_time", "finish_time"]
     __fillable__ = ["start_time", "finish_time"]
 
-    @belongs_to
+    @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account
 

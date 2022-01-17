@@ -10,13 +10,13 @@ class Client(Model, SoftDeletesMixin):
 
     __fillable__ = ["name", "email", "phone"]
 
-    @has_many
+    @has_many('id', 'client_id')
     def appointments(self):
         from app.models.Appointment import Appointment
 
         return Appointment
 
-    @belongs_to
+    @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account
 

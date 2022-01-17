@@ -19,7 +19,8 @@ class Provider(Model, SoftDeletesMixin):
         "account_id",
     ]
 
-    @belongs_to
+    @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account
+
         return Account

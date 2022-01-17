@@ -23,25 +23,25 @@ class Appointment(Model):
         "account_id" "staff_id",
     ]
 
-    @belongs_to("account_id")
+    @belongs_to("account_id", "id")
     def accounts(self):
         from app.models.Account import Account
 
         return Account
 
-    @belongs_to("client_id")
+    @belongs_to("client_id", "id")
     def client(self):
         from app.models.Client import Client
 
         return Client
 
-    @belongs_to("id", "staff_id")
+    @belongs_to("staff_id", "id")
     def staff(self):
         from app.models.Staff import Staff
 
         return Staff
 
-    @belongs_to_many()
+    @belongs_to_many
     def services(self):
         from app.models.Service import Service
 
