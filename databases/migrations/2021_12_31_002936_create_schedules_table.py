@@ -13,6 +13,8 @@ class CreateSchedulesTable(Migration):
             table.datetime("start_time")
             table.datetime("finish_time")
             table.boolean("is_working").default(True)
+            table.unsigned("account_id")
+            table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
             table.timestamps()
             table.soft_deletes()
 

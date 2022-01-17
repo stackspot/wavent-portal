@@ -13,7 +13,7 @@ class CreateAppointmentsTable(Migration):
             table.datetime("start_time")
             table.datetime("finish_time")
             table.integer("client_id").nullable()
-            table.integer("account_id").nullable()
+            table.integer("staff_id").nullable()
             table.string("client_name", 128).nullable()
             table.string("client_email", 128).nullable()
             table.string("client_phone", 50).nullable()
@@ -23,8 +23,6 @@ class CreateAppointmentsTable(Migration):
             table.text("cancellation_reason").nullable()
             table.unsigned("account_id")
             table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
-            table.unsigned("staff_id")
-            table.foreign("staff_id").references("id").on("staffs").on_delete("cascade")
             table.timestamps()
             table.soft_deletes()
 
