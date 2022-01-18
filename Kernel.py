@@ -14,6 +14,7 @@ from masonite.storage import StorageCapsule
 from masonite.utils.location import base_path
 from masonite.utils.structures import load
 
+from app.middlewares.AuthenticationMiddleware import AuthenticationMiddleware
 from app.middlewares.HandleInertiaRequests import HandleInertiaRequests
 from app.middlewares.VerifyCsrfToken import VerifyCsrfToken
 from config.filesystem import STATICFILES
@@ -25,6 +26,7 @@ class Kernel:
 
     route_middleware = {
         "web": [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
+        "auth": [AuthenticationMiddleware],
     }
 
     def __init__(self, app):
