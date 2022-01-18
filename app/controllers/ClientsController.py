@@ -23,7 +23,7 @@ class ClientsController(Controller):
         self.session = session
 
     def index(self):
-        client = Client.all()
+        client = Client.where("account_id", self.request.user().account.id).get()
 
         return self.view.render("Client/index")
 
@@ -38,7 +38,13 @@ class ClientsController(Controller):
         if errors:
             self.session.flash("error", "Houve um error ao criar o cliente.")
             return self.response.redirect(name="client.index").with_errors(errors).with_input()
-        Client.create(**self.request.only("name", "email", "phone"))
+
+        Client.create(
+            name=self.request.input("name"),
+            email=self.request.input("email"),
+            phone=self.request.input("phone"),
+            account_id=self.request.user().account.id,
+        )
 
         self.session.flash("success", "Cliente adicionado com sucesso.")
         return self.response.redirect(name="client.index")

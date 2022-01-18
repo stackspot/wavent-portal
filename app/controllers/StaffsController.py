@@ -1,3 +1,5 @@
+import email
+
 from app.models.Service import Service
 from app.models.Staff import Staff
 from masonite.controllers import Controller
@@ -19,8 +21,8 @@ class StaffsController(Controller):
         self.session = Session
 
     def index(self):
-        staffs = Staff.all()
-        services = Service.all()
+        staffs = self.request.user().account.staffs
+        services = self.request.user().account.services
         return self.view.render(
             "Staff/index", {"staffs": staffs.serialize(), "services": services.serialize()}
         )
@@ -40,7 +42,12 @@ class StaffsController(Controller):
         """ self.request.session.flash("errors", "Preencha os campos")
         return self.response.status(404) """
 
-        Staff.create(**self.request.only("name", "email", "phone"))
+        Staff.create(
+            name=self.request.input("name"),
+            email=self.request.input("email"),
+            phone=self.request.input("phone"),
+            account_id=self.request.user().account.id,
+        )
 
         return self.response.back().with_success("Membro criado com sucesso.")
 

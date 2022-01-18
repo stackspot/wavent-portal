@@ -23,7 +23,7 @@ class ServicesController(Controller):
         self.validate = validate
 
     def index(self):
-        services = Service.all()
+        services = self.request.user().account.services
         return self.view.render("Service/index", {"services": services.serialize()})
 
     def create(self):
@@ -46,7 +46,12 @@ class ServicesController(Controller):
             return self.response.redirect(name="service.create").with_input().with_errors(errors)
 
         try:
-            Service.create(**self.request.only("name", "duration", "price"))
+            Service.create(
+                name=self.request.input("name"),
+                duration=self.request.input("duration"),
+                price=self.request.input("price"),
+                account_id=self.request.user().account.id,
+            )
 
         except Exception as e:
             return self.response.redirect(name="service.create").with_input().with_errors(e)
@@ -73,8 +78,6 @@ class ServicesController(Controller):
 
     def update(self):
         service = Service.find(self.request.param("service"))
-        print(service)
-        print(self.request.all())
         if not service:
             return self.response.status(404)
 

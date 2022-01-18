@@ -28,17 +28,17 @@ class ProvidersController(Controller):
         self.storage = storage
 
     def index(self):
-        # organizations = Organization.all()
+        provider = self.request.user().account.provider
 
-        return self.view.render("Organization/index")
+        return self.view.render("Organization/index", {"provider": provider.serialize()})
 
     def create(self):
         return self.view.render("")
 
     def store(self):
         errors = self.request.validate(
-            self.validate.required(["name"]),
-            self.validate.length(["email", "phone", "city", "region"], max=50),
+            self.validate.required(["name", "address", "email"]),
+            self.validate.length("phone", max=50),
             self.validate.length(["name"], min=2),
         )
         if errors:
@@ -53,14 +53,15 @@ class ProvidersController(Controller):
             # save file
             brand_image = self.storage.disk.put_file("brands", self.request.input("brand_image"))
 
-        """  Provider.create(
-            **self.request.only(
-                "name", "email", "phone", "address", "city", "region", "country", "postal_code"
-            ),
+        Provider.create(
+            name=self.request.input("name"),
+            email=self.request.input("email"),
+            phone=self.request.input("phone"),
+            address=self.request.input("address"),
             logo=logo,
             brand_image=brand_image,
-            # account_id=self.request.user().account_id,
-        ) """
+            account_id=self.request.user().account.id,
+        )
         return self.response.redirect(name="org.index")
 
     def show(self):
@@ -94,12 +95,12 @@ class ProvidersController(Controller):
             brand_image = self.storage.disk.put_file("brands", self.request.input("brand_image"))
 
         Provider.update(
-            **self.request.only(
-                "name", "email", "phone", "address", "city", "region", "country", "postal_code"
-            ),
+            name=self.request.input("name"),
+            email=self.request.input("email"),
+            phone=self.request.input("phone"),
+            address=self.request.input("address"),
             logo=logo,
             brand_image=brand_image,
-            # account_id=self.request.user().account_id,
         )
         self.session.flash("success", "Conta criada com sucesso.")
         return self.response.redirect(name="provider.index")

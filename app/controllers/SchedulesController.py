@@ -11,7 +11,7 @@ class SchedulesController(Controller):
         self.session = Session
 
     def index(self):
-        schedules = Schedule.all()
+        schedules = self.request.user().account.schedules
         return self.response.json({"schedules": schedules.serialize()})
 
     def create(self):
@@ -20,7 +20,7 @@ class SchedulesController(Controller):
     def store(self):
 
         try:
-            Schedule.bulk_create(
+            self.request.user().account.schedules.bulk_create(
                 [self.request.all().only("start_time", "finish_time", "is_working")]
             )
         except Exception as e:

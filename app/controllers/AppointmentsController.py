@@ -22,7 +22,7 @@ class AppointmentsController(Controller):
         self.session = session
 
     def index(self):
-        appointments = Appointment.all()
+        appointments = self.request.user().account.appointments
 
         return self.view.render("Appointment/index")
 
