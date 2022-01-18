@@ -18,3 +18,7 @@ class LoginController(Controller):
 
         # Go back to login page
         return response.redirect(name="login").with_errors(["The email or password is incorrect"])
+
+    def logout(self, auth: Auth, response: Response):
+        auth.logout()
+        return response.redirect(name="login")
