@@ -37,7 +37,7 @@
         :options="options"
         @select="handleOptionsSelect"
       >
-        <n-avatar size="small" round class="bg-blue-300 text-lg">J</n-avatar>
+        <n-avatar size="small" round class="bg-blue-300 text-lg">{{ currentUser.name[0] }}</n-avatar>
       </n-dropdown>
     </n-space>
   </n-layout-header>
@@ -45,14 +45,18 @@
 
 <script setup>
 import { h, computed } from 'vue'
-import { useMessage } from 'naive-ui'
+import { useMessage, NButton } from 'naive-ui'
 // import { useCurrentUser } from '@/composables'
 import { Icon } from '@/components'
 import { Link as InertiaLink } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
+import { useRoute, useUser } from '@/composables'
 
 const message = useMessage()
+const { route } = useRoute()
+const { getUser } = useUser()
 
+const currentUser = getUser()
 const renderIcon = (icon) => {
   return h(Icon, { type: icon })
 }
@@ -60,19 +64,17 @@ const renderIcon = (icon) => {
 const labelLink = (to, label) => h(InertiaLink, { href: to }, { default: (props) => label })
 
 const options = computed(() => [
-  { key: 'me', label: `Hey, Jack!` },
+  { key: 'me', label: `Hey, ${currentUser.name}!` },
   { key: 'divider', type: 'divider' },
   { key: 'profile', label: () => labelLink('/profile', 'Perfil'), icon: () => h(Icon, { type: 'user' }) },
-  { key: 'settings', label: () => labelLink('/profile/settings', 'Difinições'), icon: () => h(Icon, { type: 'settings' }) },
+  { key: 'settings', label: () => labelLink(route('settings'), 'Difinições'), icon: () => h(Icon, { type: 'settings' }) },
   { key: 'divider', type: 'divider' },
-  { key: 'logout', label: 'Sair' }
+  { key: 'logout', label: () => labelLink(route('logout'), 'Sair') }
 ])
 
 const handleOptionsSelect = async (key) => {
-  if (key === 'logout') {
-    await Inertia.push({ name: 'login' })
-  } else if (key === 'me') {
-    message.success(`Welcome back, jack!`)
+  if (key === 'me') {
+    message.success(`Welcome back, ${currentUser.name}!`)
   }
 }
 </script>
