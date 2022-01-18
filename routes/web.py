@@ -13,9 +13,9 @@ from .controllers_routes import (
 )
 
 ROUTES = [
-    Route.get("/", "WelcomeController@show").name("dashboard"),
     Route.group(
         [
+            Route.get("/", "WelcomeController@show").name("dashboard"),
             Route.group(
                 USER_ROUTES,
                 prefix="/utilizadores",
