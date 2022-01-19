@@ -65,7 +65,6 @@ class ProvidersController(Controller):
         return self.response.redirect(name="org.index")
 
     def show(self):
-        # provider = self.request.user().providers()
         provider = Provider.find(self.request.param("provider"))
         return self.view.render("")
 
@@ -74,7 +73,6 @@ class ProvidersController(Controller):
         return self.view.render("")
 
     def update(self):
-        # provider = self.request.user().providers()
         provider = Provider.find(self.request.param("provider"))
 
         errors = self.request.validate(
@@ -99,8 +97,10 @@ class ProvidersController(Controller):
             email=self.request.input("email"),
             phone=self.request.input("phone"),
             address=self.request.input("address"),
+            description=self.request.input("description"),
             logo=logo,
             brand_image=brand_image,
+            account_id=self.request.user().account.id,
         )
         self.session.flash("success", "Conta criada com sucesso.")
         return self.response.redirect(name="provider.index")
