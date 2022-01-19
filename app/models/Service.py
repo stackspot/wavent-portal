@@ -7,7 +7,7 @@ from masoniteorm.relationships import belongs_to, belongs_to_many, has_many
 class Service(Model):
     """Service Model"""
 
-    __fillable__ = ["name", "price", "duration"]
+    __fillable__ = ["name", "price", "duration", "account_id"]
 
     @belongs_to("account_id", "id")
     def account(self):
@@ -15,7 +15,7 @@ class Service(Model):
 
         return Account
 
-    @has_many('id', 'service_id')
+    @has_many("id", "service_id")
     def appointments(self):
         from app.models.Appointment import Appointment
 
