@@ -10,8 +10,8 @@ class CreateScheduleStaffPivotTable(Migration):
         """
         with self.schema.create("schedule_staff") as table:
             table.increments("id")
-            table.unsigned("staff_id")
-            table.unsigned("schedule_id")
+            table.unsigned("staff_id").index()
+            table.unsigned("schedule_id").index()
             table.foreign("staff_id").references("id").on("staffs").on_delete("cascade")
             table.foreign("schedule_id").references("id").on("schedules").on_delete("cascade")
             table.timestamps()

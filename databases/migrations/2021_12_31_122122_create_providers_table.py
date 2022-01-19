@@ -17,6 +17,8 @@ class CreateProvidersTable(Migration):
             table.text("description").nullable()
             table.string("logo").nullable()
             table.string("brand_image").nullable()
+            table.unsigned("account_id").unique().index()
+            table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
             table.timestamps()
 
     def down(self):

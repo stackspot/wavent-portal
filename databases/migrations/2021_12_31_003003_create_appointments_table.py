@@ -21,7 +21,7 @@ class CreateAppointmentsTable(Migration):
             table.boolean("is_noshow").default(False)
             table.boolean("canceled").default(False)
             table.text("cancellation_reason").nullable()
-            table.unsigned("account_id")
+            table.unsigned("account_id").index()
             table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
             table.timestamps()
             table.soft_deletes()

@@ -10,7 +10,7 @@ class CreateServiceStaffPivotTable(Migration):
         """
         with self.schema.create("service_staff") as table:
             table.increments("id")
-            table.unsigned("staff_id")
+            table.unsigned("staff_id").index()
             table.unsigned("service_id")
             table.foreign("staff_id").references("id").on("staffs").on_delete("cascade")
             table.foreign("service_id").references("id").on("services").on_delete("cascade")
