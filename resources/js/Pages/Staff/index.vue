@@ -10,7 +10,7 @@
       </template>
       <template #extra>
         <n-space>
-          <n-button @click="$inertia.get('/admin/equipa/novo')">Novo membro</n-button>
+          <n-button @click="$inertia.get(route('staff.create'))">Novo membro</n-button>
         </n-space>
       </template>
     </n-page-header>
@@ -22,7 +22,9 @@
 import { h } from 'vue'
 import { NButton, NSpace, useMessage, useDialog } from 'naive-ui'
 import { Inertia } from '@inertiajs/inertia'
+import { useRoute } from '@/composables'
 
+const { route } = useRoute()
 const message = useMessage()
 const dialog = useDialog()
 
@@ -92,7 +94,7 @@ const props = defineProps({
 })
 
 const editStaff = (rowData) => {
-  Inertia.post(route('staff.edit', rowData.id))
+  Inertia.get(route('staff.edit', rowData.id))
 }
 
 const deleteStaff = (rowData) => {
