@@ -21,15 +21,17 @@ class StaffsController(Controller):
         self.session = Session
 
     def index(self):
-        staffs = self.request.user().account.staffs
-        services = self.request.user().account.services
         return self.view.render(
-            "Staff/index", {"staffs": staffs.serialize(), "services": services.serialize()}
+            "Staff/index",
+            {
+                "staffs": self.request.user().account.staffs.serialize(),
+            },
         )
 
     def create(self):
-        services = Service.all()
-        return self.view.render("Staff/create", {"services": services.serialize()})
+        return self.view.render(
+            "Staff/create", {"services": self.request.user().account.services.serialize()}
+        )
 
     def store(self):
         errors = self.request.validate(
@@ -56,13 +58,17 @@ class StaffsController(Controller):
         return self.view.render("Staff/details", {"staff": staff.serialize()})
 
     def edit(self):
-        staff = Staff.find(self.request.param("Staff_id"))
+        staff = Staff.find(self.request.param("staff"))
         services = Service.all()
         return self.view.render(
             "Staff/edit", {"staff": staff.serialize(), "services": services.serialize()}
         )
 
     def update(self):
+        staff = Staff.find(self.request.param("staff"))
+
+        if not staff:
+            return self.response.back().with_errors("Membro não existe no sistema!")
         errors = self.request.validate(
             self.validate.required(["email", "name", "phone"]),
             self.validate.email("email"),
@@ -70,8 +76,6 @@ class StaffsController(Controller):
 
         if errors:
             return self.response.redirect(name="staff.create").with_errors(errors).with_input()
-
-        staff = Staff.find(self.request.param("Staff_id"))
 
         staff.update(**self.request.only("email", "name", "phone"))
 
