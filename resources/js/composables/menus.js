@@ -2,48 +2,50 @@ import { h, ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import { usePage, Link } from '@inertiajs/inertia-vue3'
 import { Icon } from '@/components'
+import { useRoute } from './route'
 
 export const useMenus = createSharedComposable(() => {
+	const { route } = useRoute()
 	const menuOptions = ref([
 		{
 			label: 'Painel',
 			id: 'dashboard',
-			url: '/',
+			url: route('dashboard'),
 			icon: 'dashboard',
 			children: null,
 		},
 		{
 			label: 'Calendário',
 			id: 'calendar',
-			url: '/admin/calendario',
+			url: route('appointment.index'),
 			icon: 'calendar',
 			children: null,
 		},
 		{
 			label: 'Clientes',
 			id: 'clients',
-			url: '/admin/cliente',
+			url: route('client.index'),
 			icon: 'clients',
 			children: null,
 		},
 		{
 			label: 'Equipa',
 			id: 'staff',
-			url: '/admin/equipa',
+			url: route('staff.index'),
 			icon: 'team',
 			children: null,
 		},
 		{
 			label: 'Serviços',
 			id: 'services',
-			url: '/admin/servicos',
+			url: route('service.index'),
 			icon: 'services',
 			children: null,
 		},
 		{
 			label: 'Definições',
 			id: 'settings',
-			url: '/admin/definicao',
+			url: route('settings'),
 			icon: 'settings',
 			children: null,
 		},
