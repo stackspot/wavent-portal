@@ -23,6 +23,7 @@ class ServicesController(Controller):
         self.validate = validate
 
     def index(self):
+        print(self.request.user().account)
         services = self.request.user().account.services
         return self.view.render("Service/index", {"services": services.serialize()})
 
@@ -45,16 +46,12 @@ class ServicesController(Controller):
         if errors:
             return self.response.redirect(name="service.create").with_input().with_errors(errors)
 
-        try:
-            Service.create(
-                name=self.request.input("name"),
-                duration=self.request.input("duration"),
-                price=self.request.input("price"),
-                account_id=self.request.user().account.id,
-            )
-
-        except Exception as e:
-            return self.response.redirect(name="service.create").with_input().with_errors(e)
+        Service.create(
+            name=self.request.input("name"),
+            duration=self.request.input("duration"),
+            price=self.request.input("price"),
+            account_id=self.request.user().account.id,
+        )
 
         self.session.flash("success", "Serviço adicionado com sucesso.")
         return self.response.redirect(name="service.index")
