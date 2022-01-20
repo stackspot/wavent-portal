@@ -4,6 +4,7 @@ import {
 	// component
 	NH1,
 	NH2,
+	NH3,
 	NP,
 	NText,
 	NA,
@@ -43,6 +44,7 @@ import {
 	NGridItem,
 	NSwitch,
 	NThing,
+	NNumberAnimation,
 	NDescriptions,
 	NDescriptionsItem,
 	NInputNumber,
@@ -66,6 +68,7 @@ export default create({
 	components: [
 		NH1,
 		NH2,
+		NH3,
 		NP,
 		NText,
 		NA,
@@ -105,6 +108,7 @@ export default create({
 		NGridItem,
 		NSwitch,
 		NThing,
+		NNumberAnimation,
 		NDescriptions,
 		NDescriptionsItem,
 		NInputNumber,
