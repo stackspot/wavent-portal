@@ -15,19 +15,23 @@
       closable
       class="mb-4"
     >Preencha os campos obrigatórios.</n-alert>
-    <n-form :model="service" :rules="rules" ref="formRef" label-placement="top">
+    <n-form :model="serviceModel" :rules="rules" ref="formRef" label-placement="top">
       <n-grid cols="12" responsive="screen" :x-gap="24">
         <n-form-item-gi :span="12" label="Nome do serviço" path="name">
-          <n-input placeholder="Input" v-model:value="service.name" />
+          <n-input placeholder="Input" v-model:value="serviceModel.name" />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Preço do serviço" path="price">
-          <n-input-number v-model:value="service.price" :step="0.01" placeholder="Preço do serviço">
+          <n-input-number
+            v-model:value="serviceModel.price"
+            :step="0.01"
+            placeholder="Preço do serviço"
+          >
             <template #prefix>€</template>
           </n-input-number>
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Duração do serviço" path="duration">
           <n-time-picker
-            v-model:value="service.duration"
+            v-model:value="serviceModel.duration"
             placeholder="Duração do serviço"
             :minutes="15"
             format="HH:mm"
@@ -35,7 +39,7 @@
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Atribuir ao pessoal" path="stuff">
           <n-select
-            v-model:value="service.staff"
+            v-model:value="serviceModel.staff"
             :options="staffOptions"
             placeholder="Atribuir ao pessoal"
             multiple
@@ -56,10 +60,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 //import { useForm } from "@inertiajs/inertia-vue3"
 import { Inertia } from '@inertiajs/inertia'
 import { useRoute } from '@/composables'
+import { getUnixTime, parseISO } from 'date-fns'
 
 const formRef = ref(null)
 const showError = ref(false)
@@ -70,6 +75,11 @@ const props = defineProps({
   service: Object
 })
 
+const serviceModel = reactive({
+  name: props.service?.name,
+  price: props.service?.price,
+  duration: parseISO(props.service?.duration)
+})
 const loading = ref(false)
 
 const rules = {
@@ -90,7 +100,7 @@ const updateService = () => {
   formRef.value.validate((errors) => {
     if (!errors) {
       loading.value = true
-      Inertia.post(route('service.update', service?.id), service, {
+      Inertia.post(route('service.update', service?.id), serviceModel, {
         onSuccess: () => loading.value = false,
         onError: () => {
           loading.value = false

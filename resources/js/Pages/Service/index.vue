@@ -86,12 +86,11 @@
 
 <script setup>
 import { h, ref } from 'vue'
-import { NButton, NSpace, NTime, useDialog, useMessage } from 'naive-ui'
-import { usePage } from '@inertiajs/inertia-vue3'
+import { NNumberAnimation, NButton, NSpace, NTime, useDialog, useMessage } from 'naive-ui'
 import { Inertia } from '@inertiajs/inertia'
 import { useRoute } from '@/composables'
+import { getTime, parseISO, toDate } from 'date-fns'
 
-const page = usePage()
 const dialog = useDialog()
 const message = useMessage()
 const { route } = useRoute()
@@ -128,7 +127,16 @@ const createColumns = ({ editService, deleteService }) => {
     },
     {
       title: 'Preço',
-      key: 'price'
+      key: 'price',
+      render (row) {
+        return h(NNumberAnimation,
+          {
+            precision: 2,
+            duration: 500,
+            to: row.price,
+          }
+        )
+      }
     },
     {
       title: 'Duração',
@@ -137,7 +145,7 @@ const createColumns = ({ editService, deleteService }) => {
         return h(NTime,
           {
             format: 'HH:mm',
-            time: row.duration
+            time: getTime(parseISO(row.duration))
           }
         )
       }
@@ -171,28 +179,13 @@ const createColumns = ({ editService, deleteService }) => {
   ]
 }
 
-const createData = () => [
-  {
-    key: 0,
-    name: 'Hair Cut',
-    price: '10.00',
-    duration: '1h'
-  },
-  {
-    key: 1,
-    name: 'Razor Cut',
-    price: '7.00',
-    duration: '45min'
-  },
-  {
-    key: 2,
-    name: 'Beard Trim',
-    price: '4.00',
-    duration: '30min'
-  }
-]
 const editService = (rowData) => {
-  serviceEdit.value = rowData
+  serviceEdit.value = {
+    id: rowData.id,
+    name: rowData.name,
+    price: rowData.price,
+    duration: getTime(parseISO(rowData.duration))
+  }
   showModal.value = true
 }
 
@@ -200,7 +193,12 @@ const updateService = async () => {
   formRef.value.validate((errors) => {
     if (!errors) {
       loading.value = true
-      Inertia.post(route('service.update', serviceEdit.value.id), serviceEdit.value, {
+      Inertia.post(route('service.update', serviceEdit.value.id),
+        {
+          name: serviceEdit.value.name,
+          price: serviceEdit.value.price,
+          duration: toDate(serviceEdit.value.duration),
+        }, {
         onSuccess: () => {
           showModal.value = false
           loading.value = false
@@ -231,7 +229,7 @@ const deleteService = (rowData) => {
     }
   })
 }
-const data = props.services
+const data = props?.services
 const columns = createColumns({ editService, deleteService })
 
 const pagination = {
