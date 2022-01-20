@@ -3,3 +3,4 @@ masonite-orm>=2.0,<3.0
 masonite-inertia
 masonite-js-routes
 python-slugify
+psycopg2-binary
