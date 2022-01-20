@@ -52,12 +52,14 @@ const createColumns = ({ sendMail }) => {
               h(NButton,
                 {
                   size: 'small',
+                  type: 'info',
                   onClick: () => editClient(row)
                 },
                 { default: () => 'Editar' }),
               h(NButton,
                 {
                   size: 'small',
+                  type: 'error',
                   onClick: () => deleteClient(row)
                 },
                 { default: () => 'Delete' })
