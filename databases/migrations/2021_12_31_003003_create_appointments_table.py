@@ -10,8 +10,8 @@ class CreateAppointmentsTable(Migration):
         """
         with self.schema.create("appointments") as table:
             table.increments("id").primary()
-            table.datetime("start_time")
-            table.datetime("finish_time")
+            table.timestamp("start_time")
+            table.timestamp("finish_time")
             table.integer("client_id").nullable()
             table.integer("staff_id").nullable()
             table.string("client_name", 128).nullable()

@@ -12,7 +12,7 @@ class CreateServicesTable(Migration):
             table.increments("id").primary()
             table.string("name")
             table.decimal("price", 10, 2)
-            table.time("duration").nullable()
+            table.timestamp("duration").nullable()
             table.unsigned("account_id")
             table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
             table.timestamps()
