@@ -23,7 +23,6 @@ class ServicesController(Controller):
         self.validate = validate
 
     def index(self):
-        print(self.request.user().account)
         services = self.request.user().account.services
         return self.view.render("Service/index", {"services": services.serialize()})
 
@@ -40,9 +39,8 @@ class ServicesController(Controller):
                     "price": "Tens de fornecer o preço do serviço.(e.g. 7€)",
                 },
             ),
-            self.validate.numeric(["duration"]),
+            self.validate.date(["duration"]),
         )
-
         if errors:
             return self.response.redirect(name="service.create").with_input().with_errors(errors)
 
@@ -52,7 +50,7 @@ class ServicesController(Controller):
             price=self.request.input("price"),
             account_id=self.request.user().account.id,
         )
-
+        print("serviço criado")
         self.session.flash("success", "Serviço adicionado com sucesso.")
         return self.response.redirect(name="service.index")
 
@@ -67,7 +65,6 @@ class ServicesController(Controller):
 
     def edit(self):
         service = Service.find(self.request.param("service"))
-        print("editar", service)
         if not service:
             self.response.status(404), "service not found"
 
