@@ -1,10 +1,10 @@
 from app.models.Appointment import Appointment
 from app.models.Service import Service
-from app.models.User import User
+from app.models.Staff import Staff
 from masonite.controllers import Controller
 from masonite.inertia import Inertia
 from masonite.request import Request
-from masonite.response import Response, response
+from masonite.response import Response
 from masonite.sessions import Session
 
 
@@ -22,9 +22,24 @@ class AppointmentsController(Controller):
         self.session = session
 
     def index(self):
-        appointments = self.request.user().account.appointments
-
-        return self.view.render("Appointment/index")
+        staffs = (
+            self.request.user()
+            .account.staffs.map(lambda staff: {"label": staff.name, "value": staff.id})
+            .all()
+        )
+        services = (
+            self.request.user()
+            .account.services.map(lambda service: {"label": service.name, "value": service.id})
+            .all()
+        )
+        return self.view.render(
+            "Calendar/index",
+            {
+                "appointments": self.request.user().account.appointments.serialize(),
+                "staffs": staffs,
+                "services": services,
+            },
+        )
 
     def create(self):
         return self.view.render("")
@@ -35,11 +50,24 @@ class AppointmentsController(Controller):
         # TODO: validate the request object
         # TODO: get the services, user(employee), then
         # TODO: create the appointment
+        services = self.request.user().account.services.filter(
+            lambda service: service.id in self.request.input("services")
+        )
+        price = services.pluck("price").sum()
+        appointment = Appointment.create(
+            start_time=self.request.input("start_time"),
+            finish_time=self.request.input("finish_time"),
+            client_id=self.request.input("client_id"),
+            client_name=self.request.input("client_name"),
+            client_email=self.request.input("client_email"),
+            client_phone=self.request.input("client_phone"),
+            price=price,
+            account_id=self.request.user().account.id,
+            staff_id=self.request.input("staff"),
+        ).fresh()
 
-        service = Service.find(self.request.input("service"))
-        Appointment.create(**self.request.only())
-        # Appointment.save_many(service)
-        print(self.request.all())
+        appointment.save_many("services", services)
+
         self.session.flash("success", "Marcação criado com sucesso.")
         return self.response.redirect(name="appointment.index")
 
