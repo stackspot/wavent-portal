@@ -60,6 +60,7 @@
 import { ref } from 'vue'
 import { useForm, usePage } from "@inertiajs/inertia-vue3"
 import { useRoute } from '@/composables'
+import { toDate } from 'date-fns'
 
 const formRef = ref(null)
 const showError = ref(false)
@@ -75,7 +76,6 @@ const service = useForm({
   name: null,
   duration: null,
   staff: null,
-  description: ''
 })
 
 const rules = {
@@ -95,7 +95,12 @@ const rules = {
 const createService = () => {
   formRef.value.validate((errors) => {
     if (!errors) {
-      service.post(route('service.store'))
+      service.transform((data) => ({
+        name: data.name,
+        price: data.price,
+        duration: toDate(data.duration),
+        staff: data.staff
+      })).post(route('service.store'))
     } else {
       showError.value = true
     }
