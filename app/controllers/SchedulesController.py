@@ -11,8 +11,7 @@ class SchedulesController(Controller):
         self.session = Session
 
     def index(self):
-        schedules = self.request.user().account.schedules
-        return self.response.json({"schedules": schedules.serialize()})
+        return self.response.json({"schedules": self.request.user().account.schedules.serialize()})
 
     def create(self):
         pass
@@ -24,9 +23,9 @@ class SchedulesController(Controller):
                 [self.request.all().only("start_time", "finish_time", "is_working")]
             )
         except Exception as e:
-            return self.response.redirect(name="users.index").with_errors("Erro ao criar Horários")
+            return self.response.redirect(name="settings").with_errors("Erro ao criar Horários")
 
-        return self.response.redirect(name="dashboard")
+        return self.response.redirect(name="settings")
 
     def show(self):
         pass
