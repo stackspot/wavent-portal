@@ -53,12 +53,14 @@ const createColumns = ({ editStaff, deleteStaff }) => {
               h(NButton,
                 {
                   size: 'small',
+                  type: 'info',
                   onClick: () => editStaff(row)
                 },
                 { default: () => 'Editar' }),
               h(NButton,
                 {
                   size: 'small',
+                  type: 'error',
                   onClick: () => deleteStaff(row)
                 },
                 { default: () => 'Delete' })
