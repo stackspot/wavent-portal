@@ -3,7 +3,7 @@ var Ziggy = {
 	port: '8000',
 	defaults: {},
 	routes: {
-		dashboard: { uri: '/', methods: ['GET'], bindings: {} },
+		dashboard: { uri: 'admin', methods: ['GET'], bindings: {} },
 		'users.index': {
 			uri: 'admin/utilizadores',
 			methods: ['GET'],
@@ -41,6 +41,11 @@ var Ziggy = {
 			bindings: {},
 		},
 		'staff.store': { uri: 'admin/equipa', methods: ['POST'], bindings: {} },
+		'staff.edit': {
+			uri: 'admin/equipa/{staff}',
+			methods: ['GET'],
+			bindings: {},
+		},
 		'staff.show': {
 			uri: 'admin/equipa/{staff}',
 			methods: ['GET'],
