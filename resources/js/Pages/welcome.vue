@@ -1,6 +1,7 @@
 <template>
   <div>
     <n-h2>Welcome</n-h2>
+    <n-h3>{{ user_account }}</n-h3>
   </div>
 </template>
 
@@ -8,7 +9,9 @@
 import { AdminLayout } from '@/layout'
 import { usePage } from '@inertiajs/inertia-vue3'
 
-console.log(usePage().props.value.urlPrev)
+const props = defineProps({
+  user_account: Object
+})
 </script>
 
 <style>
