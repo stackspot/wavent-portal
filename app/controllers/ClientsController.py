@@ -23,9 +23,13 @@ class ClientsController(Controller):
         self.session = session
 
     def index(self):
-        client = Client.where("account_id", self.request.user().account.id).get()
 
-        return self.view.render("Client/index")
+        return self.view.render(
+            "Client/index",
+            {
+                "clients": self.request.user().account.clients.serialize(),
+            },
+        )
 
     def create(self):
         return self.view.render("Client/create")
@@ -55,7 +59,7 @@ class ClientsController(Controller):
         if not client:
             self.response.redirect(name="client.index").with_errors("Cliente não existe!")
 
-        return self.view.render("Client/details")
+        return self.view.render("Client/details", {"client": client.serialize()})
 
     def edit(self):
         client = Client.find(self.request.param("client_id"))
@@ -63,7 +67,7 @@ class ClientsController(Controller):
         if not client:
             self.response.redirect(name="client.index").with_errors("Cliente não existe!")
 
-        return self.view.render("Client/edit")
+        return self.view.render("Client/edit", {"client": client.serialize()})
 
     def update(self):
         client = Client.find(self.request.param("client_id"))
