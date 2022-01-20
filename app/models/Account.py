@@ -8,7 +8,7 @@ class Account(Model):
     """Account Model"""
 
     __fillable__ = ["name", "slug"]
-    __visible__ = ["name", "slug", "deleted_at"]
+    __visible__ = ["name", "deleted_at"]
 
     @has_many("id", "account_id")
     def appointments(self):
