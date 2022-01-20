@@ -5,13 +5,14 @@ class CreateUsersTable(Migration):
     def up(self):
         """Run the migrations."""
         with self.schema.create("users") as table:
-            table.increments("id")
-            table.string("name")
+            table.increments("id").primary()
+            table.string("name", 128)
             table.string("email").unique()
             table.string("password")
-            table.string("second_password").nullable()
+            table.boolean("is_active").default(False)
+            table.boolean("is_admin").default(False)
             table.string("remember_token").nullable()
-            table.string("phone").nullable()
+            table.string("phone", 50).nullable()
             table.timestamp("verified_at").nullable()
             table.timestamps()
             table.soft_deletes()

@@ -1,7 +1,6 @@
 """UserTableSeeder Seeder."""
-from masoniteorm.seeds import Seeder
-
 from app.models.User import User
+from masoniteorm.seeds import Seeder
 
 
 class UserTableSeeder(Seeder):
@@ -9,8 +8,8 @@ class UserTableSeeder(Seeder):
         """Run the database seeds."""
         User.create(
             {
-                "name": "idmann509",
-                "email": "idmann509@gmail.com",
+                "name": "Admin",
+                "email": "Admin@example.com",
                 "password": "secret",
                 "phone": "+123456789",
             }

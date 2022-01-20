@@ -3,21 +3,38 @@ applications. By default, we are compiling the CSS file for the application as w
 bundling up all the JS files. */
 const mix = require('laravel-mix')
 const path = require('path')
+const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
 
-
-mix.js('resources/js/app.js', 'storage/compiled/js')
-  .postCss('resources/css/app.css', 'storage/compiled/css', [
-    //
-  ])
+mix
+	.js('resources/js/app.js', 'storage/compiled/js')
+	.vue()
+	.sourceMaps()
+	.postCss('resources/css/app.css', 'storage/compiled/css', [
+		//
+	])
 
 // add an alias to js code
 mix.alias({
-  "@": path.resolve("resources/js/"),
+	'@': path.resolve('resources/js/'),
+})
+
+mix.webpackConfig({
+	plugins: [new WindiCSSWebpackPlugin()],
+	module: {
+		rules: [
+			/* {
+				test: /\.mjs$/,
+				resolve: { fullySpecified: false },
+				include: /node_modules/,
+				type: 'javascript/auto',
+			}, */
+		],
+	},
 })
 
 // add version hash in production
 if (mix.inProduction()) {
-  mix.version()
+	mix.version()
 }
 // Disable compilation success notification
 mix.disableSuccessNotifications()

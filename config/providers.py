@@ -1,26 +1,26 @@
+from masonite.inertia import InertiaProvider
+from masonite.js_routes import JSRoutesProvider
+from masonite.notification.providers import NotificationProvider
 from masonite.providers import (
-    RouteProvider,
-    FrameworkProvider,
-    ViewProvider,
-    WhitenoiseProvider,
-    ExceptionProvider,
-    MailProvider,
-    SessionProvider,
-    QueueProvider,
-    CacheProvider,
-    EventProvider,
-    StorageProvider,
-    HelpersProvider,
-    BroadcastProvider,
     AuthenticationProvider,
     AuthorizationProvider,
+    BroadcastProvider,
+    CacheProvider,
+    EventProvider,
+    ExceptionProvider,
+    FrameworkProvider,
     HashServiceProvider,
+    HelpersProvider,
+    MailProvider,
     ORMProvider,
+    QueueProvider,
+    RouteProvider,
+    SessionProvider,
+    StorageProvider,
+    ViewProvider,
+    WhitenoiseProvider,
 )
-
-
 from masonite.scheduling.providers import ScheduleProvider
-from masonite.notification.providers import NotificationProvider
 from masonite.validation.providers import ValidationProvider
 
 PROVIDERS = [
@@ -43,5 +43,8 @@ PROVIDERS = [
     AuthenticationProvider,
     ValidationProvider,
     AuthorizationProvider,
-    ORMProvider
+    ORMProvider,
+    # third party packages
+    InertiaProvider,
+    JSRoutesProvider,
 ]

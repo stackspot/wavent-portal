@@ -7,3 +7,6 @@ format:
 	make lint
 serve:
 	python craft serve
+
+compile:
+	npm run watch
