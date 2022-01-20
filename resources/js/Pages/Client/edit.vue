@@ -17,11 +17,16 @@
           <n-input type="email" placeholder="Email" v-model:value="client.email" />
         </n-form-item-gi>
         <n-form-item-gi :span="12" label="Nº tlemovel" path="client_phone">
-          <n-input type="phone" placeholder="Nº Telemovel" v-model:value="client.phone" />
+          <n-input type="tel" placeholder="Nº Telemovel" v-model:value="client.phone" />
         </n-form-item-gi>
       </n-grid>
       <n-space>
-        <n-button @click="updateClient" :disabled="loading" :loading="loading">Guardar Alteração</n-button>
+        <n-button
+          @click="updateClient"
+          :disabled="loading"
+          :loading="loading"
+          type="primary"
+        >Guardar Alteração</n-button>
       </n-space>
     </n-form>
   </div>
