@@ -46,10 +46,6 @@ class AppointmentsController(Controller):
 
     def store(self):
         # TODO: check if can create appointment
-
-        # TODO: validate the request object
-        # TODO: get the services, user(employee), then
-        # TODO: create the appointment
         services = self.request.user().account.services.filter(
             lambda service: service.id in self.request.input("services")
         )
@@ -66,6 +62,7 @@ class AppointmentsController(Controller):
             staff_id=self.request.input("staff"),
         ).fresh()
 
+        # TODO: attach service and staff to appointment
         appointment.save_many("services", services)
 
         self.session.flash("success", "Marcação criado com sucesso.")
