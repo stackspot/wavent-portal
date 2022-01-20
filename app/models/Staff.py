@@ -7,6 +7,9 @@ from masoniteorm.relationships import belongs_to, has_many
 class Staff(Model):
     """Staff Model"""
 
+    __fillable__ = ["name", "email", "phone", "account_id"]
+    __visible__ = ["name", "email", "phone", "account_id", "deleted_at"]
+    
     @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account

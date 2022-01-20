@@ -8,9 +8,10 @@ from masoniteorm.scopes import SoftDeletesMixin
 class Client(Model, SoftDeletesMixin):
     """Client Model"""
 
-    __fillable__ = ["name", "email", "phone"]
+    __fillable__ = ["name", "email", "phone", "account_id"]
+    __visible__ = ["name", "email", "phone", "account_id", "deleted_at"]
 
-    @has_many('id', 'client_id')
+    @has_many("id", "client_id")
     def appointments(self):
         from app.models.Appointment import Appointment
 
