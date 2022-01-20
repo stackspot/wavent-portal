@@ -20,7 +20,8 @@ class Appointment(Model):
         "is_noshow",
         "canceled",
         "cancellation_reason",
-        "account_id" "staff_id",
+        "account_id",
+        "staff_id",
     ]
 
     @belongs_to("account_id", "id")
@@ -41,7 +42,15 @@ class Appointment(Model):
 
         return Staff
 
-    @belongs_to_many
+    @belongs_to_many(
+        "appointment_id",
+        "service_id",
+        "id",
+        "id",
+        table="appointment_service",
+        with_timestamps=True,
+        attribute="service_provided",
+    )
     def services(self):
         from app.models.Service import Service
 
