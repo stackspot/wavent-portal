@@ -14,8 +14,6 @@ class CreateUsersTable(Migration):
             table.string("remember_token").nullable()
             table.string("phone", 50).nullable()
             table.timestamp("verified_at").nullable()
-            table.unsigned("account_id")
-            table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
             table.timestamps()
             table.soft_deletes()
 
