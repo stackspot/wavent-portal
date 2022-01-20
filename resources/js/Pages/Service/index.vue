@@ -153,12 +153,14 @@ const createColumns = ({ editService, deleteService }) => {
               h(NButton,
                 {
                   size: 'small',
+                  type: 'info',
                   onClick: () => editService(row)
                 },
                 { default: () => 'Editar' }),
               h(NButton,
                 {
                   size: 'small',
+                  type: 'error',
                   onClick: () => deleteService(row)
                 },
                 { default: () => 'Delete' })
