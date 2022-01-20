@@ -37,7 +37,11 @@
         :options="options"
         @select="handleOptionsSelect"
       >
-        <n-avatar size="small" round class="bg-blue-300 text-lg">{{ currentUser.name[0] }}</n-avatar>
+        <n-avatar
+          size="small"
+          round
+          class="bg-blue-300 text-lg"
+        >{{ currentUser.name ? currentUser?.name[0] : 'W' }}</n-avatar>
       </n-dropdown>
     </n-space>
   </n-layout-header>
@@ -64,7 +68,7 @@ const renderIcon = (icon) => {
 const labelLink = (to, label) => h(InertiaLink, { href: to }, { default: (props) => label })
 
 const options = computed(() => [
-  { key: 'me', label: `Hey, ${currentUser.name}!` },
+  { key: 'me', label: `Hey, ${currentUser?.name}!` },
   { key: 'divider', type: 'divider' },
   { key: 'profile', label: () => labelLink('/profile', 'Perfil'), icon: () => h(Icon, { type: 'user' }) },
   { key: 'settings', label: () => labelLink(route('settings'), 'Difinições'), icon: () => h(Icon, { type: 'settings' }) },
@@ -74,7 +78,7 @@ const options = computed(() => [
 
 const handleOptionsSelect = async (key) => {
   if (key === 'me') {
-    message.success(`Welcome back, ${currentUser.name}!`)
+    message.success(`Welcome back, ${currentUser?.name}!`)
   }
 }
 </script>
