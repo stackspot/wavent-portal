@@ -1,23 +1,50 @@
 <template>
   <n-card class="max-w-sm mx-auto mt-6">
     <template #header>Bem Vindo!</template>
+    <n-alert
+      type="error"
+      closable
+      v-if="user.errors.errors"
+      class="mb-4"
+    >{{ user.errors?.errors[0] }}</n-alert>
     <n-form :model="user" ref="formRef" :rules="rules">
       <n-form-item path="email" label="Email">
         <n-input v-model:value="user.email" @keydown.enter.prevent placeholder="Email" />
       </n-form-item>
-      <n-form-item path="password">
-        <template #label>
-          <n-space>
-            <span>Palavra-passe</span>
-            <n-button text @click="$inertia(route('password_reset'))">Esqueceu a Palavra-passe?</n-button>
-          </n-space>
-        </template>
-        <n-input v-model:value="user.password" type="password" @keydown.enter.prevent />
+      <n-form-item path="password" label="Palavra-passe">
+        <n-input
+          v-model:value="user.password"
+          type="password"
+          @keydown.enter.prevent
+          show-password-on="mousedown"
+        />
       </n-form-item>
+      <n-button
+        text
+        size="tiny"
+        @click="$inertia(route('password_reset'))"
+      >Esqueceu a Palavra-passe?</n-button>
+      <n-divider>Ou Continue com</n-divider>
+      <n-space justify="space-between">
+        <n-button type="success">
+          <template #icon>
+            <Icon type="google"></Icon>
+          </template>
+          Google
+        </n-button>
+        <n-button type="info">
+          <template #icon>
+            <Icon type="facebook"></Icon>
+          </template>
+          Facebook
+        </n-button>
+      </n-space>
     </n-form>
     <template #action>
-      <n-button type="primary" @click="login">Aceder</n-button>
-      <n-button text @click="$inertia.get(route('register'))">Não tem conta? Criar conta!</n-button>
+      <n-space justify="space-between" align="center">
+        <n-button type="primary" @click="login">Aceder</n-button>
+        <n-button text @click="$inertia.get(route('register'))">Não tem conta? Criar conta!</n-button>
+      </n-space>
     </template>
   </n-card>
 </template>
@@ -34,6 +61,7 @@ import { ref } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { useMessage } from 'naive-ui'
 import { useRoute } from '@/composables'
+import { Icon } from '@/components'
 
 const formRef = ref(null)
 const message = useMessage()

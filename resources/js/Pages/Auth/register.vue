@@ -40,10 +40,25 @@
           @keydown.enter.prevent
         />
       </n-form-item>
+      <n-divider>Ou Registar com</n-divider>
+      <n-space justify="space-between">
+        <n-button type="success">
+          <template #icon>
+            <Icon type="google"></Icon>
+          </template>
+          Google
+        </n-button>
+        <n-button type="info">
+          <template #icon>
+            <Icon type="facebook"></Icon>
+          </template>
+          Facebook
+        </n-button>
+      </n-space>
     </n-form>
     <template #action>
-      <n-space align="center">
-        <n-button type="primary" @click="register">Criar Conta</n-button>
+      <n-space justify="space-between" align="center">
+        <n-button type="primary" @click="login">Registar</n-button>
         <n-button text @click="$inertia.get(route('login'))">Já tem conta? Entrar!</n-button>
       </n-space>
     </template>
@@ -62,6 +77,7 @@ import { ref } from 'vue'
 import { useForm } from '@inertiajs/inertia-vue3'
 import { useMessage } from 'naive-ui'
 import { useRoute } from '@/composables'
+import { Icon } from '@/components'
 
 const formRef = ref(null)
 const message = useMessage()
