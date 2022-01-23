@@ -19,4 +19,4 @@ class CreateAccountsTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("accounts")
+        self.schema.drop_table_if_exists("accounts")

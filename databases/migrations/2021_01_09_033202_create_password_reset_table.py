@@ -12,4 +12,4 @@ class CreatePasswordResetTable(Migration):
 
     def down(self):
         """Revert the migrations."""
-        self.schema.drop("password_resets")
+        self.schema.drop_table_if_exists("password_resets")

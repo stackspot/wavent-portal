@@ -22,4 +22,4 @@ class CreateStaffsTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("staffs")
+        self.schema.drop_table_if_exists("staffs")

@@ -21,4 +21,4 @@ class CreateScheduleStaffPivotTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("schedule_staff")
+        self.schema.drop_table_if_exists("schedule_staff")

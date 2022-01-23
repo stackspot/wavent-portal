@@ -20,4 +20,4 @@ class CreateRoleUserPivotTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("role_user")
+        self.schema.drop_table_if_exists("role_user")

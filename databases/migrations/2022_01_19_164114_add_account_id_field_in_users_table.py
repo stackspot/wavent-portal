@@ -9,7 +9,7 @@ class AddAccountIdFieldInUsersTable(Migration):
         Run the migrations.
         """
         with self.schema.table("users") as table:
-            table.unsigned("account_id")
+            table.unsigned("account_id").index().after("phone")
             table.foreign("account_id").references("id").on("accounts").on_delete("cascade")
 
     def down(self):
@@ -18,4 +18,3 @@ class AddAccountIdFieldInUsersTable(Migration):
         """
         with self.schema.table("users") as table:
             table.drop_column("account_id")
-            table.drop_foreign("users_account_id_foreign")

@@ -22,4 +22,4 @@ class CreateAppointmentServicePivotTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("appointment_service")
+        self.schema.drop_table_if_exists("appointment_service")

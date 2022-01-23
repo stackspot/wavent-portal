@@ -22,4 +22,4 @@ class CreateServicesTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("services")
+        self.schema.drop_table_if_exists("services")

@@ -22,4 +22,4 @@ class CreateClientsTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("clients")
+        self.schema.drop_table_if_exists("clients")

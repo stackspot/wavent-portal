@@ -10,6 +10,7 @@ class CreateSchedulesTable(Migration):
         """
         with self.schema.create("schedules") as table:
             table.increments("id").primary()
+            table.string("name")
             table.timestamp("start_time")
             table.timestamp("finish_time")
             table.boolean("is_working").default(True)
@@ -22,4 +23,4 @@ class CreateSchedulesTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("schedules")
+        self.schema.drop_table_if_exists("schedules")

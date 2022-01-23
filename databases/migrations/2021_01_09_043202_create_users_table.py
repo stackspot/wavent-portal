@@ -19,4 +19,4 @@ class CreateUsersTable(Migration):
 
     def down(self):
         """Revert the migrations."""
-        self.schema.drop("users")
+        self.schema.drop_table_if_exists("users")

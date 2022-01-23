@@ -18,4 +18,4 @@ class CreateRolesTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("roles")
+        self.schema.drop_table_if_exists("roles")

@@ -25,4 +25,4 @@ class CreateProvidersTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("providers")
+        self.schema.drop_table_if_exists("providers")

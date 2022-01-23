@@ -21,4 +21,4 @@ class CreatePermissionRolePivotTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("permission_role")
+        self.schema.drop_table_if_exists("permission_role")

@@ -30,4 +30,4 @@ class CreateAppointmentsTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("appointments")
+        self.schema.drop_table_if_exists("appointments")

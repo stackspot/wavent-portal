@@ -18,4 +18,4 @@ class CreatePermissionsTable(Migration):
         """
         Revert the migrations.
         """
-        self.schema.drop("permissions")
+        self.schema.drop_table_if_exists("permissions")
