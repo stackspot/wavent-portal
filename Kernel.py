@@ -26,7 +26,7 @@ class Kernel:
 
     route_middleware = {
         "web": [SessionMiddleware, LoadUserMiddleware, VerifyCsrfToken],
-        "auth": [AuthenticationMiddleware],
+        "auth": AuthenticationMiddleware,
     }
 
     def __init__(self, app):
