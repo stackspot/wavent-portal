@@ -23,6 +23,7 @@ class Appointment(Model):
         "account_id",
         "staff_id",
     ]
+    __casts__ = {"price": "float"}
 
     @belongs_to("account_id", "id")
     def accounts(self):
