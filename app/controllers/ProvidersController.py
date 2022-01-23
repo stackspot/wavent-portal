@@ -1,13 +1,12 @@
-from os import name
-
 from app.models.Provider import Provider
 from masonite.controllers import Controller
-from masonite.filesystem import Storage
+from masonite.filesystem import Storage, UploadedFile
 from masonite.inertia import Inertia
 from masonite.request import Request
 from masonite.response import Response
 from masonite.sessions import Session
 from masonite.validation import Validator
+from slugify import slugify
 
 
 class ProvidersController(Controller):
@@ -29,8 +28,7 @@ class ProvidersController(Controller):
 
     def index(self):
         provider = self.request.user().account.provider
-
-        return self.view.render("Organization/index", {"provider": provider.serialize()})
+        return self.response.json({"provider": provider.serialize()})
 
     def create(self):
         return self.view.render("")
@@ -42,27 +40,37 @@ class ProvidersController(Controller):
             self.validate.length(["name"], min=2),
         )
         if errors:
-            return self.response.redirect(name="account.create").with_errors(errors).with_input()
+            return self.response.redirect(name="settings").with_errors(errors).with_input()
+
+        file_name = slugify(self.request.input("name"))
 
         logo = None
         if self.request.input("logo"):
             # save file
-            logo = self.storage.disk.put_file("logo", self.request.input("logo"))
+            new_file = UploadedFile(f"{file_name}", self.request.input("logo"))
+            logo = self.storage.disk("local").put_file("logos", new_file)
         brand_image = None
         if self.request.input("brand_image"):
             # save file
-            brand_image = self.storage.disk.put_file("brands", self.request.input("brand_image"))
+            new_file = UploadedFile(f"{file_name}", self.request.input("brand_image"))
 
-        Provider.create(
-            name=self.request.input("name"),
-            email=self.request.input("email"),
-            phone=self.request.input("phone"),
-            address=self.request.input("address"),
-            logo=logo,
-            brand_image=brand_image,
-            account_id=self.request.user().account.id,
+            brand_image = self.storage.disk("local").put_file("brands", new_file)
+
+        Provider.update_or_create(
+            {"account_id": self.request.user().account.id},
+            {
+                "name": self.request.input("name"),
+                "email": self.request.input("email"),
+                "phone": self.request.input("phone"),
+                "address": self.request.input("address"),
+                "description": self.request.input("description"),
+                "logo": logo,
+                "brand_image": brand_image,
+                "account_id": self.request.user().account.id,
+            },
         )
-        return self.response.redirect(name="org.index")
+        self.session.flash("success", "Conta criada com sucesso.")
+        return self.response.redirect(name="settings")
 
     def show(self):
         provider = Provider.find(self.request.param("provider"))
