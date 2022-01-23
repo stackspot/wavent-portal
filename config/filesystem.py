@@ -1,7 +1,6 @@
 from masonite.environment import env
 from masonite.utils.location import base_path
 
-
 DISKS = {
     "default": "local",
     "local": {"driver": "file", "path": base_path("storage/framework/filesystem")},
@@ -15,9 +14,10 @@ DISKS = {
 
 STATICFILES = {
     # folder          # template alias
-    'storage/static': 'static/',
-    'storage/static/css': 'css/',
-    'storage/compiled/css': 'assets/',
-    'storage/compiled/js': 'js/',
-    'storage/public': '/',
+    "storage/static": "static/",
+    "storage/static/css": "css/",
+    "storage/compiled/css": "assets/",
+    "storage/compiled/js": "js/",
+    "storage/public": "/",
+    "storage/framework/filesystem": "uploads/",
 }
