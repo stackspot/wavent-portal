@@ -20,16 +20,6 @@ mix.alias({
 
 mix.webpackConfig({
 	plugins: [new WindiCSSWebpackPlugin()],
-	module: {
-		rules: [
-			/* {
-				test: /\.mjs$/,
-				resolve: { fullySpecified: false },
-				include: /node_modules/,
-				type: 'javascript/auto',
-			}, */
-		],
-	},
 })
 
 // add version hash in production
