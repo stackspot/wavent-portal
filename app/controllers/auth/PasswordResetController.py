@@ -1,15 +1,16 @@
+from app.mailables.ResetPassword import ResetPassword
+from masonite.authentication import Auth
 from masonite.controllers import Controller
-from masonite.views import View
+from masonite.facades import Mail
+from masonite.inertia import Inertia
 from masonite.request import Request
 from masonite.response import Response
-from masonite.authentication import Auth
-from masonite.facades import Mail
-from app.mailables.ResetPassword import ResetPassword
+from masonite.views import View
 
 
 class PasswordResetController(Controller):
-    def show(self, view: View):  # Show password_reset page
-        return view.render("auth.password_reset")
+    def show(self, view: Inertia):  # Show password_reset page
+        return view.render("Auth/password_reset")
 
     def store(self, auth: Auth, request: Request, response: Response):
         email, reset_token = auth.password_reset(request.input("email"))
@@ -21,8 +22,8 @@ class PasswordResetController(Controller):
             ]
         )
 
-    def change_password(self, view: View, request: Request):
-        return view.render("auth.change_password", {"token": request.param("token")})
+    def change_password(self, view: Inertia, request: Request):
+        return view.render("Auth/change_password", {"token": request.param("token")})
 
     def store_changed_password(self, auth: Auth, request: Request, response: Response):
         errors = request.validate(
