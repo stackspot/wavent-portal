@@ -9,7 +9,7 @@ class User(Model, SoftDeletesMixin, Authenticates):
     """User Model."""
 
     __fillable__ = ["name", "email", "password", "phone", "is_admin", "account_id"]
-    __visible__ = ["id", "name", "email", "phone", "is_admin", "account_id", "deleted_at"]
+    __visible__ = ["name", "email", "phone", "is_admin", "account_id", "deleted_at"]
     __auth__ = "email"
 
     @belongs_to("account_id", "id")
