@@ -62,7 +62,6 @@ class AppointmentsController(Controller):
             staff_id=self.request.input("staff"),
         ).fresh()
 
-        # TODO: attach service and staff to appointment
         appointment.save_many("services", services)
 
         self.session.flash("success", "Marcação criado com sucesso.")
