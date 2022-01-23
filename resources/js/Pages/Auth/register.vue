@@ -58,7 +58,7 @@
     </n-form>
     <template #action>
       <n-space justify="space-between" align="center">
-        <n-button type="primary" @click="login">Registar</n-button>
+        <n-button type="primary" @click="register">Registar</n-button>
         <n-button text @click="$inertia.get(route('login'))">Já tem conta? Entrar!</n-button>
       </n-space>
     </template>
