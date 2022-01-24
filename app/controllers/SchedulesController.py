@@ -1,14 +1,15 @@
 from app.models.Schedule import Schedule
 from masonite.controllers import Controller
-from masonite.facades import Request, Response, Session
-from masonite.views import View
+from masonite.request import Request
+from masonite.response import Response
+from masonite.sessions import Session
 
 
 class SchedulesController(Controller):
-    def __init__(self):
-        self.request = Request
-        self.response = Response
-        self.session = Session
+    def __init__(self, request: Request, response: Response, session: Session):
+        self.request = request
+        self.response = response
+        self.session = session
 
     def index(self):
         return self.response.json({"schedules": self.request.user().account.schedules.serialize()})
@@ -18,14 +19,17 @@ class SchedulesController(Controller):
 
     def store(self):
 
-        try:
-            self.request.user().account.schedules.bulk_create(
-                [self.request.all().only("start_time", "finish_time", "is_working")]
-            )
-        except Exception as e:
-            return self.response.redirect(name="settings").with_errors("Erro ao criar Horários")
+        schedules = self.request.only("schedules")
 
-        return self.response.redirect(name="settings")
+        # TODO: not working
+        try:
+            if self.request.user().account.schedules:
+                Schedule.where("account_id", self.request.user().account.id).delete()
+            Schedule.bulk_create(schedules["schedules"])
+        except Exception as e:
+            return self.response.redirect(name="settings").with_errors(e)
+
+        return self.response.redirect(name="settings").with_success("Horários criado com sucesso!")
 
     def show(self):
         pass
@@ -34,12 +38,21 @@ class SchedulesController(Controller):
         pass
 
     def update(self):
-        schedule = Schedule.find(self.request.param("schedule"))
-
-        schedule.update({**self.request.only("start_time", "finish_time", "is_working")})
+        schedules = self.request.only("schedules")
+        for schedule in schedules["schedules"]:
+            print(schedule)
+            horario = Schedule.find(schedule["id"])
+            horario.update(
+                {
+                    "name": schedule["name"],
+                    "start_time": schedule["start_time"],
+                    "finish_time": schedule["finish_time"],
+                    "is_working": schedule["is_working"],
+                }
+            )
 
         self.session.flash("success", "Horário Atualizado.")
-        return self.request.redirect("users.index")
+        return self.response.json("Horário atualizado")
 
     def destroy(self):
         schedule = Schedule.find(self.request.param("schedule"))
@@ -47,4 +60,4 @@ class SchedulesController(Controller):
         schedule.delete()
 
         self.session.flash("success", "Horário Removido.")
-        return self.request.redirect("users.index")
+        return self.response.redirect(name="users.index")
