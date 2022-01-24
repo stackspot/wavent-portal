@@ -8,8 +8,8 @@ class Schedule(Model):
     """Schedule Model"""
 
     __dates__ = ["start_time", "finish_time"]
-    __fillable__ = ["name", "start_time", "finish_time", "is_working"]
-    __visible__ = ["name", "start_time", "finish_time", "is_working"]
+    __fillable__ = ["name", "start_time", "finish_time", "is_working", "account_id"]
+    __visible__ = ["id", "name", "start_time", "finish_time", "is_working"]
 
     @belongs_to("account_id", "id")
     def account(self):
