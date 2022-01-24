@@ -49,10 +49,10 @@ APPOINTMENT_ROUTES = [
 ]
 
 SCHEDULE_ROUTES = [
-    Route.get("", "SchedulesController@show").name("index"),
+    Route.get("", "SchedulesController@index").name("index"),
     Route.post("", "SchedulesController@store").name("store"),
     Route.get("/@schedule/edit", "SchedulesController@edit").name("edit"),
-    Route.put("/@schedule", "SchedulesController@update").name("update"),
+    Route.post("/update", "SchedulesController@update").name("update"),
 ]
 
 SERVICE_ROUTES = [
