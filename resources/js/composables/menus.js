@@ -38,7 +38,7 @@ export const useMenus = createSharedComposable(() => {
 		{
 			label: 'Serviços',
 			id: 'services',
-			url: '/admin/servico',
+			url: '/admin/servicos',
 			icon: 'services',
 			children: null,
 		},
