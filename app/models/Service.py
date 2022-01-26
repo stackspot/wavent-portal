@@ -10,6 +10,7 @@ class Service(Model):
     __fillable__ = ["name", "price", "duration", "account_id"]
     __visible__ = ["id", "name", "price", "duration", "account_id"]
     __casts__ = {"price": "float"}
+    __dates__ = ["duration"]
 
     @belongs_to("account_id", "id")
     def account(self):

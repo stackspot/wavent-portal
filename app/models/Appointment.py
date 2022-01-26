@@ -2,10 +2,13 @@
 
 from masoniteorm.models import Model
 from masoniteorm.relationships import belongs_to, belongs_to_many
+from masoniteorm.scopes import scope
 
 
 class Appointment(Model):
     """Appointment Model"""
+
+    __with__ = ["services", "client", "staff"]
 
     __dates__ = ["start_time", "finish_time"]
     __fillable__ = [
@@ -15,7 +18,6 @@ class Appointment(Model):
         "client_name",
         "client_email",
         "client_phone",
-        "account_id",
         "price",
         "is_noshow",
         "canceled",
