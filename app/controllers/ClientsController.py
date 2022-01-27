@@ -54,7 +54,7 @@ class ClientsController(Controller):
         return self.response.redirect(name="client.index")
 
     def show(self):
-        client = Client.find(self.request.param("client_id"))
+        client = Client.find(self.request.param("client"))
 
         if not client:
             self.response.redirect(name="client.index").with_errors("Cliente não existe!")
@@ -62,7 +62,7 @@ class ClientsController(Controller):
         return self.view.render("Client/details", {"client": client.serialize()})
 
     def edit(self):
-        client = Client.find(self.request.param("client_id"))
+        client = Client.find(self.request.param("client"))
 
         if not client:
             self.response.redirect(name="client.index").with_errors("Cliente não existe!")
@@ -70,7 +70,7 @@ class ClientsController(Controller):
         return self.view.render("Client/edit", {"client": client.serialize()})
 
     def update(self):
-        client = Client.find(self.request.param("client_id"))
+        client = Client.find(self.request.param("client"))
 
         if not client:
             self.response.redirect(name="client.index").with_errors("Cliente não existe!")
