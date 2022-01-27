@@ -9,7 +9,7 @@
     >{{ user.errors?.errors[0] }}</n-alert>
     <n-form :model="user" ref="formRef" :rules="rules">
       <n-form-item path="email" label="Email">
-        <n-input v-model:value="user.email" @keydown.enter.prevent placeholder="Email" />
+        <n-input type="email" v-model:value="user.email" @keydown.enter.prevent placeholder="Email" />
       </n-form-item>
       <n-form-item path="password" label="Palavra-passe">
         <n-input
