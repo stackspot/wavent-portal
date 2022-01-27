@@ -8,8 +8,8 @@ class Staff(Model):
     """Staff Model"""
 
     __fillable__ = ["name", "email", "phone", "account_id"]
-    __visible__ = ["name", "email", "phone", "account_id", "deleted_at"]
-    
+    __visible__ = ["id", "name", "email", "phone", "deleted_at"]
+
     @belongs_to("account_id", "id")
     def account(self):
         from app.models.Account import Account
