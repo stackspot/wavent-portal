@@ -1,6 +1,6 @@
 <template>
-  <n-card content-style="padding: 0;">
-    <n-tabs type="line" size="large" :tabs-padding="20" pane-style="padding: 20px;">
+  <n-card content-style="padding: 0;" class="h-full">
+    <n-tabs type="segment" size="large" :tabs-padding="20" pane-style="padding: 20px;">
       <n-tab-pane name="Horário Comercial">
         <schedules></schedules>
       </n-tab-pane>
