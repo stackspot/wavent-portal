@@ -4,7 +4,9 @@
       <sidebar />
       <n-layout :native-scrollbar="false">
         <Header />
-        <n-layout-content content-style="padding: 16px; min-height: 85vh">
+        <n-layout-content
+          content-style="padding: 16px; min-height: 85vh; background-color: #F9FAFB;"
+        >
           <slot />
         </n-layout-content>
         <Footer />
