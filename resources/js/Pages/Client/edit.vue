@@ -48,7 +48,7 @@ const props = defineProps({
 
 const { route } = useRoute()
 const loading = ref(false)
-const errors = ref([])
+const errors = ref(null)
 
 const updateClient = () => {
   loading.value = true

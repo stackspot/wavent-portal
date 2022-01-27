@@ -56,7 +56,7 @@ const props = defineProps({
   services: Array,
 })
 
-const errors = ref([])
+const errors = ref(null)
 const loading = ref(false)
 const { route } = useRoute()
 
