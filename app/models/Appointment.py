@@ -25,6 +25,8 @@ class Appointment(Model):
         "account_id",
         "staff_id",
     ]
+
+    __hidden__ = ["account_id"]
     __casts__ = {"price": "float"}
 
     @belongs_to("account_id", "id")
