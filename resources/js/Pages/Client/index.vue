@@ -22,13 +22,18 @@
 import { h } from 'vue'
 import { NButton, NSpace, useMessage, useDialog } from 'naive-ui'
 import { Inertia } from '@inertiajs/inertia'
+import { useRoute } from '@/composables'
 
 const dialog = useDialog()
 const message = useMessage()
+const { route } = useRoute()
 
-
-const createColumns = ({ sendMail }) => {
+const createColumns = ({ editClient, deleteClient }) => {
   return [
+    {
+      title: 'ID',
+      key: 'id'
+    },
     {
       title: 'Nome',
       key: 'name'
@@ -70,32 +75,12 @@ const createColumns = ({ sendMail }) => {
   ]
 }
 
-const createData = () => [
-  {
-    key: 0,
-    name: 'John Brown',
-    email: "john.brown@gmail.com",
-    phone: '+355984672364'
-  },
-  {
-    key: 1,
-    name: 'Jim Green',
-    email: "jim.green@gmail.com",
-    phone: '+355963672364'
-  },
-  {
-    key: 2,
-    name: 'Joe Black',
-    email: "joe.black@gmail.com",
-    phone: '+355927672894'
-  }
-]
 const props = defineProps({
   clients: Array
 })
 
 const editClient = (rowData) => {
-  console.log(rowData)
+  Inertia.get(route('client.edit', rowData.id))
 }
 
 const deleteClient = (rowData) => {

@@ -31,6 +31,10 @@ const dialog = useDialog()
 const createColumns = ({ editStaff, deleteStaff }) => {
   return [
     {
+      title: 'ID',
+      key: 'id'
+    },
+    {
       title: 'Nome',
       key: 'name'
     },
