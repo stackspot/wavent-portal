@@ -40,7 +40,9 @@ import {
   MoreVertical24Regular as more
 } from '@vicons/fluent'
 
-const icons = { refresh, dashboard, posts, pages, media, users, comments, themes, plugins, tools, settings, add, help, notifications, fallback, calendar, users, user, services, logout, clients, company, calendar_person, calendar_sync, calendar_settings, team, preview_link, shifts, shifts_open, shifts_team, code, more }
+import { LogoGoogle as google, LogoFacebook as facebook } from '@vicons/ionicons5'
+
+const icons = { refresh, dashboard, posts, pages, media, users, comments, themes, plugins, tools, settings, add, help, notifications, fallback, calendar, users, user, services, logout, clients, company, calendar_person, calendar_sync, calendar_settings, team, preview_link, shifts, shifts_open, shifts_team, code, more, google, facebook }
 
 const props = defineProps({
   ...NIcon.props,
