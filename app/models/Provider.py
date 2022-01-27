@@ -29,7 +29,7 @@ class Provider(Model):
         "description",
         "logo_path",
         "brand_image",
-        "account_id",
+        "id",
     ]
 
     @belongs_to("account_id", "id")
