@@ -1,6 +1,5 @@
+import pendulum
 from app.models.Appointment import Appointment
-from app.models.Service import Service
-from app.models.Staff import Staff
 from masonite.controllers import Controller
 from masonite.inertia import Inertia
 from masonite.request import Request
@@ -21,6 +20,57 @@ class AppointmentsController(Controller):
         self.response = response
         self.session = session
 
+    @staticmethod
+    def format_client(appointment):
+        return {
+            "name": appointment.client.name
+            if appointment.client.name
+            else appointment.client_name,
+            "email": appointment.client.email
+            if appointment.client.email
+            else appointment.client_email,
+            "phone": appointment.client.phone
+            if appointment.client.phone
+            else appointment.client_phone,
+        }
+
+    @staticmethod
+    def format_staff(appointment):
+        return {
+            "name": appointment.staff.name if appointment.staff.name else "",
+            "email": appointment.staff.email if appointment.staff.email else "",
+            "phone": appointment.staff.phone if appointment.staff.phone else "",
+        }
+
+    @staticmethod
+    def get_services(appointment):
+        return [
+            {
+                "name": service.name,
+                "price": service.price,
+                "duration": service.duration.to_datetime_string(),
+            }
+            for service in appointment.services
+        ]
+
+    def api(self):
+        appointments = (
+            self.request.user()
+            .account.appointments.map(
+                lambda appointment: {
+                    "client": self.format_client(appointment),
+                    "services": self.get_services(appointment),
+                    "staff": self.format_staff(appointment),
+                    "start_time": appointment.start_time.to_datetime_string(),
+                    "finish_time": appointment.finish_time.to_datetime_string(),
+                    "price": appointment.price,
+                    "id": appointment.id,
+                }
+            )
+            .all()
+        )
+        return self.response.json({"appointments": appointments})
+
     def index(self):
         staffs = (
             self.request.user()
@@ -32,12 +82,34 @@ class AppointmentsController(Controller):
             .account.services.map(lambda service: {"label": service.name, "value": service.id})
             .all()
         )
+        clients = (
+            self.request.user()
+            .account.clients.map(lambda client: {"label": client.name, "value": client.id})
+            .all()
+        )
+
+        appointments = (
+            self.request.user()
+            .account.appointments.map(
+                lambda appointment: {
+                    "client": self.format_client(appointment),
+                    "services": self.get_services(appointment),
+                    "staff": self.format_staff(appointment),
+                    "start_time": appointment.start_time.to_datetime_string(),
+                    "finish_time": appointment.finish_time.to_datetime_string(),
+                    "price": appointment.price,
+                    "id": appointment.id,
+                }
+            )
+            .all()
+        )
         return self.view.render(
             "Calendar/index",
             {
-                "appointments": self.request.user().account.appointments.serialize(),
                 "staffs": staffs,
                 "services": services,
+                "clients": clients,
+                "appointments": appointments,
             },
         )
 
