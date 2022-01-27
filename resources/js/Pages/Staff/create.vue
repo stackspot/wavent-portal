@@ -2,7 +2,7 @@
   <n-page-header class="mb-6">
     <template #title>
       <n-breadcrumb>
-        <n-breadcrumb-item @click="$inertia.get('/admin/equipa')">Equipa</n-breadcrumb-item>
+        <n-breadcrumb-item @click="$inertia.get(route('staff.index'))">Equipa</n-breadcrumb-item>
         <n-breadcrumb-item>Novo membro</n-breadcrumb-item>
       </n-breadcrumb>
     </template>
@@ -22,10 +22,10 @@
         <n-form-item-gi :span="12" label="Serviços">
           <n-select
             v-model:value="staff.services"
-            :options="servicesOptions"
+            :options="services"
             placeholder="Atribuir serviço ao novo membro"
             multiple
-            :max-tag-count="3"
+            max-tag-count="responsive"
           />
         </n-form-item-gi>
       </n-grid>
@@ -42,7 +42,6 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
 import { useForm } from "@inertiajs/inertia-vue3"
 import { useRoute } from '@/composables'
 
@@ -63,19 +62,5 @@ const { route } = useRoute()
 const createStaff = () => {
   staff.post(route('staff.store'))
 }
-const servicesOptions = [
-  {
-    label: 'Hair Cut',
-    value: 123
-  },
-  {
-    label: 'Razor Cut',
-    value: 342
-  },
-  {
-    label: 'Beard Trim',
-    value: 264
-  }
-]
 
 </script>
