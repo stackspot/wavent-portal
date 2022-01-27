@@ -8,6 +8,11 @@
     </template>
   </n-page-header>
   <div class="max-w-2xl w-full mx-auto mt-6" cols="12">
+    <n-alert type="error" closable v-if="errors" class="mb-4">
+      <n-list>
+        <n-list-item v-for="(error, index) in errors" :key="index">{{ error }}</n-list-item>
+      </n-list>
+    </n-alert>
     <n-form :model="client" ref="formRef" label-placement="top">
       <n-grid cols="12" responsive="screen" :x-gap="24">
         <n-form-item-gi :span="12" label="Nome" path="client_name">
@@ -43,19 +48,20 @@ const props = defineProps({
 
 const { route } = useRoute()
 const loading = ref(false)
+const errors = ref([])
 
 const updateClient = () => {
-  try {
-    loading.value = true
-    Inertia.post(route('client.update', props.client.id), client, {
-      onSuccess: () => loading.value = false,
-      onError: () => {
-        loading.value = false
-      },
-    })
-  } catch (e) {
-    console.log(e)
-  }
+  loading.value = true
+  Inertia.post(route('client.update', props.client.id), client, {
+    onSuccess: (successMessage) => {
+      loading.value = false,
+        console.log(successMessage)
+    },
+    onError: (errorsMessage) => {
+      errors.value = errorsMessage
+      loading.value = false
+    },
+  })
 }
 
 </script>

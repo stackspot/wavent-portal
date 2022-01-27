@@ -8,6 +8,11 @@
     </template>
   </n-page-header>
   <div class="max-w-2xl w-full mx-auto" cols="12">
+    <n-alert type="error" closable v-if="errors" class="mb-4">
+      <n-list>
+        <n-list-item v-for="(error, index) in errors" :key="index">{{ error }}</n-list-item>
+      </n-list>
+    </n-alert>
     <n-form :model="staff" ref="formRef" label-placement="top">
       <n-grid cols="12" responsive="screen" :x-gap="24">
         <n-form-item-gi :span="12" label="Nome" path="staff_name">
@@ -22,7 +27,7 @@
         <n-form-item-gi :span="12" label="Servoços" path="service_duration">
           <n-select
             v-model:value="staff.services"
-            :options="servicesOptions"
+            :options="services"
             placeholder="Atribuir serviço ao novo membro"
             multiple
             :max-tag-count="3"
@@ -51,34 +56,20 @@ const props = defineProps({
   services: Array,
 })
 
+const errors = ref([])
 const loading = ref(false)
 const { route } = useRoute()
 
 const updateStaff = () => {
-  try {
-    Inertia.post(route('staff.update', props.staff.id), props.staff, {
-      onSuccess: () => loading.value = false,
-      onError: () => {
-        loading.value = false
-      },
-    })
-  } catch (e) {
-    console.log(e)
-  }
+  loading.value = true
+  Inertia.post(route('staff.update', props.staff.id), props.staff, {
+    onSuccess: () => loading.value = false,
+    onError: (e) => {
+      errors.value = e
+      loading.value = false
+    },
+  })
 }
-const servicesOptions = [
-  {
-    label: 'Hair Cut',
-    value: 123
-  },
-  {
-    label: 'Razor Cut',
-    value: 342
-  },
-  {
-    label: 'Beard Trim',
-    value: 264
-  }
-]
+
 
 </script>
