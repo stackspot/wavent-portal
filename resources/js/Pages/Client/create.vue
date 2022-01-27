@@ -8,6 +8,11 @@
     </template>
   </n-page-header>
   <div class="max-w-2xl w-full mx-auto mt-6" cols="12">
+    <n-alert type="error" closable v-if="client.errors.errors" class="mb-4">
+      <n-list>
+        <n-list-item v-for="(error, index) in client.errors.errors" :key="index">{{ error }}</n-list-item>
+      </n-list>
+    </n-alert>
     <n-form :model="client" ref="formRef" label-placement="top">
       <n-grid cols="12" responsive="screen" :x-gap="24">
         <n-form-item-gi :span="12" label="Nome" path="client_name">
@@ -46,10 +51,6 @@ const client = useForm({
 })
 
 const createClient = () => {
-  try {
-    client.post(route('client.store'))
-  } catch (e) {
-    console.log(e)
-  }
+  client.post(route('client.store'))
 }
 </script>

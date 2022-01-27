@@ -8,6 +8,11 @@
     </template>
   </n-page-header>
   <div class="max-w-2xl w-full mx-auto" cols="12">
+    <n-alert type="error" closable v-if="staff.errors.errors" class="mb-4">
+      <n-list>
+        <n-list-item v-for="(error, index) in staff.errors.errors" :key="index">{{ error }}</n-list-item>
+      </n-list>
+    </n-alert>
     <n-form :model="staff" ref="formRef" label-placement="top">
       <n-grid cols="12" responsive="screen" :x-gap="24">
         <n-form-item-gi :span="12" label="Nome" path="staff_name">
