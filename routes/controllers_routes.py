@@ -41,6 +41,7 @@ PROVIDER_ROUTES = [
 
 APPOINTMENT_ROUTES = [
     Route.get("", "AppointmentsController@index").name("index"),
+    Route.get("/marcacoes", "AppointmentsController@api").name("api"),
     Route.post("/create", "AppointmentsController@store").name("store"),
     Route.get("/@appointment/edit", "AppointmentsController@edit").name("edit"),
     Route.put("/@appointment", "AppointmentsController@update").name("update"),
