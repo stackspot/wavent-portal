@@ -42,7 +42,7 @@ var Ziggy = {
 		},
 		'staff.store': { uri: 'admin/equipa', methods: ['POST'], bindings: {} },
 		'staff.edit': {
-			uri: 'admin/equipa/{staff}',
+			uri: 'admin/equipa/{staff}/editar',
 			methods: ['GET'],
 			bindings: {},
 		},
@@ -64,6 +64,11 @@ var Ziggy = {
 		'client.index': { uri: 'admin/cliente', methods: ['GET'], bindings: {} },
 		'client.create': {
 			uri: 'admin/cliente/novo',
+			methods: ['GET'],
+			bindings: {},
+		},
+		'client.edit': {
+			uri: 'admin/cliente/{client}/editar',
 			methods: ['GET'],
 			bindings: {},
 		},

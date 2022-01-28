@@ -14,7 +14,7 @@ STAFF_ROUTES = [
     Route.get("", "StaffsController@index").name("index"),
     Route.get("/novo", "StaffsController@create").name("create"),
     Route.post("", "StaffsController@store").name("store"),
-    Route.get("/@staff", "StaffsController@edit").name("edit"),
+    Route.get("/@staff/editar", "StaffsController@edit").name("edit"),
     Route.get("/@staff", "StaffsController@show").name("show"),
     Route.put("/@staff", "StaffsController@update").name("update"),
     Route.delete("/@staff", "StaffsController@destroy").name("destroy"),
@@ -67,6 +67,7 @@ SERVICE_ROUTES = [
 CLIENT_ROUTES = [
     Route.get("", "ClientsController@index").name("index"),
     Route.get("/novo", "ClientsController@create").name("create"),
+    Route.get("/@client/editar", "ClientsController@edit").name("edit"),
     Route.post("", "ClientsController@store").name("store"),
     Route.get("/@client", "ClientsController@show").name("show"),
     Route.post("/@client", "ClientsController@update").name("update"),
